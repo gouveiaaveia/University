@@ -1,0 +1,12 @@
+[submodule "Projeto-TI"]
+	path = Projeto-TI
+	url = https://github.com//gouveiaaveia/Projeto-TI.git
+[submodule "IPRP-Projeto"]
+	path = IPRP-Projeto
+	url = https://github.com//gouveiaaveia/IPRP-Projeto.git
+[submodule "1-ano-Projeto-C"]
+	path = 1-ano-Projeto-C
+	url = https://github.com//gouveiaaveia/1-ano-Projeto-C.git
+[submodule "POO-Exercicio1"]
+	path = POO-Exercicio1
+	url = https://github.com//gouveiaaveia/POO-Exercicio1.git
