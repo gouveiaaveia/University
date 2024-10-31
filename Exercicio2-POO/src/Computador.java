@@ -41,8 +41,10 @@ public class Computador {
      * Atributo contém o consumo energetico do computador
      */
     protected double consumoEnergetico;
-
-    private final String[] ARQUITETURAS;
+    /**
+     * Atributo contém as possíveis arquiteturas de um computador
+     */
+    private String[] arquiteturas;
 
     protected Random rand = new Random();
 
@@ -59,7 +61,7 @@ public class Computador {
      * @param cap2 limite superior da capacidade de processamento
      */
     public Computador(String tipo, String nivel, int arq, int ram1, int ram2, int esp1, int esp2, float cap1, float cap2) {
-        this.ARQUITETURAS = new String[]{"x64", "ARM"};
+        this.arquiteturas = new String[]{"x64", "ARM"};
 
         inicializarAtributosAleatorios(arq, ram1, ram2, esp1, esp2, cap1, cap2);
 
@@ -83,7 +85,7 @@ public class Computador {
      * @param cap2 limite superior para a capacidade de processamento
      */
     private void inicializarAtributosAleatorios(int arq, int ram1, int ram2, int esp1, int esp2, float cap1, float cap2) {
-        this.arquitetura = ARQUITETURAS[rand.nextInt(arq)];
+        this.arquitetura = arquiteturas[rand.nextInt(arq)];
         this.ram = (int) Math.pow(2, rand.nextInt(ram1, ram2));
         this.espacoArmazenamento = (int) Math.pow(2, rand.nextInt(esp1, esp2));
         this.capacidadeProcessamento = cap1 + rand.nextFloat() * (cap2 - cap1);

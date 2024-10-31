@@ -14,7 +14,7 @@ public class Main {
 
         System.out.println("Todos os computadores da NCS:\n" + ncsLab);
         System.out.println("Computadores com arquitetura x64:\n" + ncsLab.arquiteturaX64());
-        System.out.println(ncsLab.consumoTotal());
+        ncsLab.consumoTotal();
 
     }
 }

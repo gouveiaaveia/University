@@ -78,18 +78,14 @@ public class NCSLab {
      * Calcula e exibe o consumo energético total de todos os computadores no laboratório.
      * Para cada computador, chama o método consumoEnergia e acumula o valor total.
      *
-     * @return uma string formatada com o valor do consumo total de energia de todos os computadores.
      */
-    public String consumoTotal() {
+    public void consumoTotal() {
         double valor = 0;
         System.out.println("Consumo de cada computador:");
         for (Computador computador : computadores) {
             computador.consumoEnergia();
             System.out.println(computador.getId() + ": " + computador.getConsumoEnergetico() + " watts");
-            valor += computador.getConsumoEnergetico();
         }
-
-        return String.format("Valor consumo total de energia: %.2f watts", valor);
     }
 
     /**
