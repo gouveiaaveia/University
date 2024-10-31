@@ -30,10 +30,6 @@ public class Computador {
      */
     protected String arquitetura;
     /**
-     * Atributo contém os valores possiveis para a arquitetura do computador
-     */
-    protected String[] valoresArquitetura;
-    /**
      * Atributo contém o tipo do computador
      */
     protected String tipo;
@@ -64,7 +60,6 @@ public class Computador {
      */
     public Computador(String tipo, String nivel, int arq, int ram1, int ram2, int esp1, int esp2, float cap1, float cap2) {
         this.ARQUITETURAS = new String[]{"x64", "ARM"};
-        setValoresArquitetura(ARQUITETURAS);
 
         inicializarAtributosAleatorios(arq, ram1, ram2, esp1, esp2, cap1, cap2);
 
@@ -228,23 +223,6 @@ public class Computador {
      */
     public void setNivel(String nivel) {
         this.nivel = nivel;
-    }
-
-    /**
-     * Método que retorna os valores da arquitetura do computador
-     *
-     * @return valor os valores a Arquitetura (String)
-     */
-    public String[] getValoresArquitetura() {
-        return valoresArquitetura;
-    }
-
-    /**
-     * Método que atualiza os valores de arquitetura do computador
-     * @param valoresArquitetura valor que irá ser definido no atributo valoresArquitetura
-     */
-    public void setValoresArquitetura(String[] valoresArquitetura) {
-        this.valoresArquitetura = valoresArquitetura;
     }
 
     /**

@@ -19,6 +19,7 @@ public class Laptop extends Computador {
      */
     public Laptop() {
         super("Laptop", "Edge", 2, 5, 7, 8, 10, 2.0F, 3.1F);
+        setGPU(rand.nextBoolean());
     }
 
     /**
