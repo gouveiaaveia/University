@@ -7,6 +7,10 @@
  * Por fim mostra o consumo de cada computador e o consumo total
  */
 public class Main {
+    /**
+     * Método estático main
+     * @param args
+     */
     public static void main(String[] args) {
 
         NCSLab ncsLab = new NCSLab();

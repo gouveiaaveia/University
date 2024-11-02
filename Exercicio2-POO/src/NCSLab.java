@@ -1,14 +1,14 @@
 /**
- * Classe NCSLab é responsável por gerenciar um laboratório com vários computadores.
- * Contém um ArrayList de objetos Computador e oferece funcionalidades para gerar o ID de cada computador,
- * criar diferentes tipos de computadores, e calcular o consumo total de energia.
- *
  * @author Francisco Gouveia e Ricardo Domingues
  * @version 1.0
  */
 
 import java.util.ArrayList;
-
+/**
+ * Classe NCSLab é responsável por gerenciar um laboratório com vários computadores.
+ * Contém um ArrayList de objetos Computador e oferece funcionalidades para gerar o ID de cada computador,
+ * criar diferentes tipos de computadores, e calcular o consumo total de energia.
+ */
 public class NCSLab {
     /**
      * ArrayList que armazena todos os objetos Computador no laboratório.

@@ -46,6 +46,9 @@ public class Computador {
      */
     private String[] arquiteturas;
 
+    /**
+     * Atributo para gerar valores aleatórios
+     */
     protected Random rand = new Random();
 
     /**

@@ -3,8 +3,8 @@
  * baseado na arquitetura e características específicas de um Raspberry Pi.
  * Extende a classe Computador, definindo valores específicos de tipo, nível e características de desempenho.
  *
- * @autor Francisco Gouveia e Ricardo Domingues
- * @versão 1.0
+ * @author Francisco Gouveia e Ricardo Domingues
+ * @version 1.0
  */
 public class RaspberryPi extends Computador {
 
