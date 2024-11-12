@@ -9,9 +9,9 @@ public class ProdutoAlimentar extends Produtos{
         Normal;
     }
 
-    private TipoTaxa tipoTaxa;
-    private String categotia;
-    private ArrayList<String> certificacoes;
+    protected TipoTaxa tipoTaxa;
+    protected String categotia;
+    protected ArrayList<String> certificacoes;
 
     Scanner sc = new Scanner(System.in);
 
@@ -27,12 +27,12 @@ public class ProdutoAlimentar extends Produtos{
         determinarTipoTaxaIVA();
     }
 
-    private String categoria(){
+    protected String categoria(){
         System.out.print("Categoria: ");
         return sc.nextLine();
     }
 
-    private ArrayList<String> certificacoes(){
+    protected ArrayList<String> certificacoes(){
         ArrayList<String> certificacoes = new ArrayList<>(4);
         System.out.print("Quantas certificações pertende adicionar (0-4): ");
         int numero;
@@ -47,6 +47,7 @@ public class ProdutoAlimentar extends Produtos{
                 }
             }
         }while(numero > 4);
+        sc.nextLine();
         return certificacoes;
     }
 
@@ -68,11 +69,11 @@ public class ProdutoAlimentar extends Produtos{
 
     @Override
     public double valorTotalComIVA(String localizacao){
-        return getQuantidade() * valorComIVA(localizacao);
+        return getPrecoUnitario() + (getQuantidade() * valorComIVA(localizacao));
     }
 
     @Override
-    public int obterIVA(String localizacao) {
+    public double obterIVA(String localizacao) {
 
         TabelaIVA tabela = TabelaIVA.getTabelaPorLocalizacao(localizacao);
 
@@ -97,16 +98,16 @@ public class ProdutoAlimentar extends Produtos{
         }
     }
 
-    private double extraCategoriaVinho(String localizacao){
+    protected double extraCategoriaVinho(String localizacao){
         return obterIVA(localizacao) + (double) (1 /100);
     }
 
-    private double extraCertificacoes(String localizacao){
+    protected double extraCertificacoes(String localizacao){
         return obterIVA(localizacao) - (double) (1/100);
     }
 
     public String toString(){
-        return "Código: " + getCodigo() + " Nome: " + getNome() + "Preço Unitário: " + getPrecoUnitario() + "Quantidade: " + getQuantidade();
+        return "Código: " + getCodigo() + "  Nome: " + getNome() + "  Preço Unitário: " + getPrecoUnitario() + "  Quantidade: " + getQuantidade();
     }
 
 

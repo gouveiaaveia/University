@@ -4,13 +4,13 @@ public class ProdutoAlimentarBiologico extends ProdutoAlimentar{
 
     public ProdutoAlimentarBiologico(){
         super();
-        super.criarProduto();
         this.biologico = true;
     }
 
+
     @Override
     public double valorComIVA(String localizacao){
-        return aplicarDescontoBiologico(localizacao) * getPrecoUnitario();
+        return getPrecoUnitario() + (aplicarDescontoBiologico(localizacao) * getPrecoUnitario());
     }
 
     private double aplicarDescontoBiologico(String localizacao){
