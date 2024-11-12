@@ -23,23 +23,34 @@ public class POOFS {
                     System.out.println("Cliente adicionado com sucesso!");
                     break;
                 case 2:
-                    dados.editarCliente();
+                    dados.encontrarCliente();
                     break;
                 case 3:
                     System.out.println("Lista de clientes:\n");
                     dados.mostrarListaClientes();
                     break;
                 case 4:
-                    System.out.println("Criar fatura");
+                    System.out.println("NIF do cliente: ");
+                    int nif = sc.nextInt();
+                    for(Cliente c : dados.getClientes()){
+                        if(c.getNif() == nif){
+                            Fatura fatura = new Fatura(c);
+                            fatura.criarFatura();
+                            dados.adicionarFatura(fatura);
+                            break;
+                        }
+                    }
                     break;
                 case 5:
                     System.out.println("Editar fatura");
+                    dados.encontrarFatura();
                     break;
                 case 6:
-                    System.out.println("Lista de faturas");
+                    System.out.println("Lista de faturas:");
+                    dados.mostrarListaFaturas();
                     break;
                 case 7:
-                    System.out.println("Visualizar fatura");
+                    dados.mostrarFatura();
                     break;
                 case 8:
                     System.out.println("Saindo...");

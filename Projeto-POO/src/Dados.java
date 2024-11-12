@@ -8,28 +8,17 @@ public class Dados{
     Scanner sc = new Scanner(System.in);
 
     public Dados(){
-        this.clientes = new ArrayList<Cliente>();
-        this.faturas = new ArrayList<Fatura>();
+        this.clientes = new ArrayList<>();
+        this.faturas = new ArrayList<>();
     }
 
     public void adicionarCliente(Cliente cliente){
         this.clientes.add(cliente);
     }
 
-    public void editarCliente(){
-        System.out.print("NIF: ");
-        int nif = sc.nextInt();
-        sc.nextLine();
-        for(Cliente c: clientes){
-            if(c.getNif() == nif){
-                System.out.print("Nome: ");
-                c.setNome(sc.nextLine());
-                System.out.print("Localização: ");
-                c.setLocalizacao(sc.nextLine());
-            }else{
-                System.out.println("Cliente não encontrado");
-            }
-        }
+
+    public void encontrarCliente(){
+
     }
 
     public void mostrarListaClientes(){
@@ -40,6 +29,34 @@ public class Dados{
 
     public void adicionarFatura(Fatura fatura){
         this.faturas.add(fatura);
+    }
+
+
+    public void encontrarFatura(){
+        System.out.print("Número da fatura: ");
+        int numeroFatura = sc.nextInt();
+        for(Fatura f: faturas){
+            if(f.getNumeroFatura() == numeroFatura){
+                f.editarFatura();
+            }
+        }
+        System.out.println("Fatura não encontrada");
+    }
+
+    public void mostrarFatura(){
+        System.out.print("Número da fatura: ");
+        int numeroFatura = sc.nextInt();
+        for(Fatura f: faturas){
+            if(f.getNumeroFatura() == numeroFatura){
+                f.faturaUnica();
+            }
+        }
+    }
+
+    public void mostrarListaFaturas(){
+        for(Fatura f : faturas){
+            System.out.println(f.toString());
+        }
     }
 
     public ArrayList<Cliente> getClientes() {
