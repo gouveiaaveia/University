@@ -8,9 +8,13 @@ public class ProdutoAlimentarBiologico extends ProdutoAlimentar{
         this.biologico = true;
     }
 
+    @Override
+    public double valorComIVA(String localizacao){
+        return aplicarDescontoBiologico(localizacao) * getPrecoUnitario();
+    }
 
-    public void aplicarDescontoBiologico(){
-
+    private double aplicarDescontoBiologico(String localizacao){
+        return obterIVA(localizacao) + (double) (10 /100);
     }
 
     public boolean isBiologico() {
