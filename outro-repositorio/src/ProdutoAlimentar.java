@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class ProdutoAlimentar extends Produtos implements IVA{
+public class ProdutoAlimentar extends Produtos{
 
     enum TipoTaxa {
         Reduzida,
@@ -68,8 +68,7 @@ public class ProdutoAlimentar extends Produtos implements IVA{
 
     @Override
     public double valorTotalComIVA(String localizacao){
-
-        return 0;
+        return getQuantidade() * valorComIVA(localizacao);
     }
 
     @Override
@@ -107,7 +106,7 @@ public class ProdutoAlimentar extends Produtos implements IVA{
     }
 
     public String toString(){
-        return "";
+        return "Código: " + getCodigo() + " Nome: " + getNome() + "Preço Unitário: " + getPrecoUnitario() + "Quantidade: " + getQuantidade();
     }
 
 

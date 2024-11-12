@@ -1,21 +1,6 @@
-public class ProdutoFarmacia extends Produtos implements IVA{
+public abstract class ProdutoFarmacia extends Produtos{
 
     private String categoria;
-
-    @Override
-    public double calcularIVA() {
-        return 0;
-    }
-
-    @Override
-    public int obterIVA(String localizacao) {
-        return 0;
-    }
-
-    @Override
-    public void determinarTipoTaxaIVA() {
-
-    }
 
     enum Categorias{
         Beleza,
@@ -32,4 +17,31 @@ public class ProdutoFarmacia extends Produtos implements IVA{
     public void criarProduto(){
 
     }
+
+    @Override
+    public void determinarTipoTaxaIVA() {
+
+    }
+
+    @Override
+    public double valorTotalComIVA(String localizacao) {
+        return 0;
+    }
+
+    @Override
+    public double valorTotalSemIVA() {
+        return 0;
+    }
+
+    @Override
+    public int obterIVA(String localizacao) {
+        return 0;
+    }
+
+    @Override
+    public double valorComIVA(String localizacao) {
+        return 0;
+    }
+
+
 }

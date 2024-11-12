@@ -38,13 +38,20 @@ public class Fatura{
             System.out.print("Data da fatura (dd/mm/aa): ");
             setData(sc.nextLine());
         }
+        System.out.println("Pretende adicionar algum produto? 1- SIM\n2- NÃO\nOpção: ");
+        int opcao2 = sc.nextInt();
+        if(opcao2==1){
+            criarProduto();
+        }else if(opcao2 == 2){
+            System.out.println("Fatura criada com produtos!!");
+        }
     }
 
     public void adicionarProduto(Produtos produto){
         this.listaProdutos.add(produto);
     }
 
-    public void criarProduto(){
+    private void criarProduto(){
         System.out.print("Tipo de produto a adicionar:\n\n1 - Produto alimentar\n2-Produto Farmaceutico\n Opção:");
         int opcao = sc.nextInt();
         switch(opcao){
@@ -53,10 +60,12 @@ public class Fatura{
                 int opcao1 = sc.nextInt();
                 if(opcao1==1){
                     ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
-                    listaProdutos.add(p);
+                    p.criarProduto();
+                    adicionarProduto(p);
                 }else{
                     ProdutoAlimentar p = new ProdutoAlimentar();
-                    listaProdutos.add(p);
+                    p.criarProduto();
+                    adicionarProduto(p);
                 }
                 break;
 
@@ -70,14 +79,33 @@ public class Fatura{
     }
 
     public void faturaUnica(){
+
+        double totalSemIVA = 0;
+        double totalComIVA = 0;
+        double valorTotalDoIVA = 0;
+
         System.out.println("Número da fatura: " + this.numeroFatura
                 + "\nData da fatura (dd/mm/aa): " + this.data +
-                "\nCliente: " + this.cliente.getNome() + " NIF: " + this.cliente.getNif() + " Localização: "+ this.cliente.getLocalizacao()
+                getCliente().toString()
                 + "\nProdutos:");
         for(Produtos p: this.listaProdutos){
+
+            String localizaocao = getCliente().getLocalizacao();
+
+            totalSemIVA += p.valorTotalSemIVA();
+            valorTotalDoIVA += p.obterIVA(localizaocao);
+            totalComIVA += p.valorTotalComIVA(localizaocao);
+
             System.out.println("Código: " + p.getCodigo() + " Nome: " + p.getNome() + " Preço unitário " + p.getPrecoUnitario()
                     + "Quantidade: " + p.getQuantidade());
-            System.out.println(p); //chama o toString do produto
+
+            System.out.println(p.toString() + "\n Valor total sem IVA: " + p.valorTotalSemIVA() +
+                    "\nTaxa de IVA: " + p.obterIVA(localizaocao) +
+                    "\nValor com IVA: " + p.valorComIVA(localizaocao) +
+                    "Valor total com IVA: " + p.valorTotalComIVA(localizaocao));
+
+            System.out.println("Informação final da fatura:\n Valor total da fatura sem IVA: " + totalSemIVA +
+                                "\nValor total do IVA: " + valorTotalDoIVA + "\nValor total da fatura com IVA: " + totalComIVA);
         }
     }
 

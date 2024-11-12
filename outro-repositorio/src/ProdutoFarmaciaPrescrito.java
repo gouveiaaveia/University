@@ -3,8 +3,8 @@ public class ProdutoFarmaciaPrescrito  extends ProdutoFarmacia{
     private String nomeMedico;
 
 
-    public ProdutoFarmaciaPrescrito(int codigo, String nome, String descricao, int quantidade, double precoUnitario, String nomeMedico) {
-        super(codigo, nome, descricao, quantidade, precoUnitario);
+    public ProdutoFarmaciaPrescrito() {
+        super();
         this.nomeMedico = nomeMedico;
     }
 

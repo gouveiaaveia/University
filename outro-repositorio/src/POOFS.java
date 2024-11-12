@@ -30,14 +30,22 @@ public class POOFS {
                     dados.mostrarListaClientes();
                     break;
                 case 4:
-                    System.out.println("NIF do cliente: ");
+                    System.out.print("NIF do cliente: ");
                     int nif = sc.nextInt();
+
+                    if(dados.getClientes().isEmpty()){
+                        System.out.println("Sem nenhum cliente registado!");
+                        break;
+                    }
+
                     for(Cliente c : dados.getClientes()){
                         if(c.getNif() == nif){
                             Fatura fatura = new Fatura(c);
                             fatura.criarFatura();
                             dados.adicionarFatura(fatura);
                             break;
+                        }else{
+                            System.out.println("Cliente não encontrado!");
                         }
                     }
                     break;
