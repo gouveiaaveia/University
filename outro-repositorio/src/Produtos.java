@@ -20,26 +20,26 @@ public abstract class Produtos{
     }
 
     public void criarProduto(){
-        int codigoProduto = rand.nextInt(10000);
+        setCodigo(rand.nextInt(10000));
         System.out.print("Nome do produto: ");
-        String nomeProduto = sc.nextLine();
-        System.out.println("Descrição do produto: ");
-        String descricaoProduto = sc.nextLine();
+        setNome(sc.nextLine());
+        System.out.print("Descrição do produto: ");
+        setDescricao(sc.nextLine());
         System.out.print("Quantidade do produto: ");
-        int quantidadeProduto = sc.nextInt();
-        System.out.println("Preço unitário do produto: ");
-        double precoProduto = sc.nextDouble();
+        setQuantidade(sc.nextInt());
+        System.out.print("Preço unitário do produto: ");
+        setPrecoUnitario(sc.nextDouble());
     }
 
     public abstract double valorTotalComIVA(String localizacao);
     public abstract double valorTotalSemIVA();
-    public abstract int obterIVA(String localizacao);
+    public abstract double obterIVA(String localizacao);
     public abstract double valorComIVA(String localizacao);
     public abstract void determinarTipoTaxaIVA();
 
     public String toString(){
         return "";
-    }
+    };
 
 
     public int getCodigo() {

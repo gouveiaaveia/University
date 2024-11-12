@@ -34,7 +34,7 @@ public abstract class ProdutoFarmacia extends Produtos{
     }
 
     @Override
-    public int obterIVA(String localizacao) {
+    public double obterIVA(String localizacao) {
         return 0;
     }
 

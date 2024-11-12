@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
 public class TabelaIVA {
-    private int taxaReduzida;
-    private int taxaIntermedia;
-    private int taxaNormal;
+    private final int taxaReduzida;
+    private final int taxaIntermedia;
+    private final int taxaNormal;
 
     public TabelaIVA(int taxaReduzida, int taxaIntermedia, int taxaNormal) {
         this.taxaReduzida = taxaReduzida;
@@ -25,7 +25,7 @@ public class TabelaIVA {
         }
     }
 
-    public int getTaxaReduzida() { return taxaReduzida / 100; }
-    public int getTaxaIntermedia() { return taxaIntermedia / 100; }
-    public int getTaxaNormal() { return taxaNormal / 100; }
+    public double getTaxaReduzida() { return (double) taxaReduzida / 100; }
+    public double getTaxaIntermedia() { return (double) taxaIntermedia / 100; }
+    public double getTaxaNormal() { return (double) taxaNormal / 100; }
 }

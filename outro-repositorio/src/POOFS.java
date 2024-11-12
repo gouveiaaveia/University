@@ -7,7 +7,7 @@ public class POOFS {
         boolean continuar = true;
         Dados dados = new Dados();
         do {
-            System.out.println("=======================");
+            System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
             System.out.println("=======================\n");
             System.out.println("MENU:\n1 - Criar cliente\n2 - Editar cliente\n3 - Lista de clientes\n4 - Criar fatura\n5 - Editar fatura\n6 - Lista de faturas\n7 - Visualizar fatura\n8 - Sair");
@@ -17,6 +17,7 @@ public class POOFS {
 
             switch(opcao) {
                 case 1:
+                    System.out.println("\nCriar cliente: ");
                     Cliente cliente = new Cliente();
                     cliente.criarCliente();
                     dados.adicionarCliente(cliente);
@@ -30,6 +31,7 @@ public class POOFS {
                     dados.mostrarListaClientes();
                     break;
                 case 4:
+                    System.out.println("\nCriar fatura:");
                     System.out.print("NIF do cliente: ");
                     int nif = sc.nextInt();
 
