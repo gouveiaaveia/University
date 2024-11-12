@@ -9,7 +9,9 @@ public class Cliente{
     Scanner sc = new Scanner(System.in);
 
     public Cliente(){
-
+        this.nome = "";
+        this.nif = 0;
+        this.localizacao = "";
     }
 
     public void criarCliente(){
