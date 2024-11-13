@@ -35,12 +35,16 @@ public class Dados{
     public void encontrarFatura(){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
+        boolean encontrada = false;
         for(Fatura f: faturas){
             if(f.getNumeroFatura().equals(numeroFatura)){
                 f.editarFatura();
+                encontrada = true;
             }
         }
-        System.out.println("Fatura não encontrada");
+        if(!encontrada){
+            System.out.println("Fatura não encontrada");
+        }
     }
 
     public void mostrarFatura(){
@@ -54,8 +58,12 @@ public class Dados{
     }
 
     public void mostrarListaFaturas(){
+        if(getFaturas().isEmpty()){
+            System.out.println("Sem nenhuma fatura registada no sistema!");
+            return;
+        }
         for(Fatura f : faturas){
-            System.out.println(f.toString());
+            System.out.println(f);
         }
     }
 
