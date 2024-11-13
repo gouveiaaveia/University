@@ -19,7 +19,7 @@ public abstract class Produtos{
        this.precoUnitario = 0;
     }
 
-    public void criarProduto(){
+    public void criarEditarProduto(){
         System.out.print("Código do produto: ");
         setCodigo(sc.nextLine());
         System.out.print("Nome do produto: ");

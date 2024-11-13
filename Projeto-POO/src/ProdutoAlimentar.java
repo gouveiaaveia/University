@@ -18,10 +18,11 @@ public class ProdutoAlimentar extends Produtos{
     public ProdutoAlimentar() {
         super();
         this.categotia = "";
+        certificacoes = new ArrayList<>();
     }
 
-    public void criarProduto(){
-        super.criarProduto();
+    public void criarEditarProduto(){
+        super.criarEditarProduto();
         setCategotia(categoria());
         setCertificacoes(certificacoes());
         determinarTipoTaxaIVA();
@@ -38,6 +39,7 @@ public class ProdutoAlimentar extends Produtos{
         int numero;
         do{
             numero = sc.nextInt();
+            sc.nextLine();
             if(numero > 4){
                 System.out.println("O máximo de certificações é 4");
             }else{
@@ -75,7 +77,7 @@ public class ProdutoAlimentar extends Produtos{
     public double obterIVA(String localizacao) {
 
         TabelaIVA tabelaBase = new TabelaIVA(0,0,0);
-        TabelaIVA tabela = tabelaBase.getTabelaPorLocalizacao(localizacao.toLowerCase());
+        TabelaIVA tabela = tabelaBase.getTabelaPorLocalizacao(localizacao.toLowerCase(), "alimentar");
 
         switch (tipoTaxa) {
             case Reduzida:

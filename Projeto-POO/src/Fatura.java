@@ -1,7 +1,4 @@
-import com.sun.source.doctree.SystemPropertyTree;
-
 import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class Fatura{
@@ -33,9 +30,9 @@ public class Fatura{
             }else if(opcao2 == 'n'){
                 System.out.println("Fatura criada!!");
                 break;
-            };
+            }
             sc.nextLine();
-            System.out.print("Deseja adicionar mais algum produto? (s/n):");
+            System.out.print("Deseja adicionar mais algum produto? (s/n): ");
         }while(opcao2 == 's');
     }
 
@@ -50,9 +47,11 @@ public class Fatura{
             setData(sc.nextLine());
         }
         System.out.print("Pretende alterar algum produto? (s/n): ");
-        if(opcao== 's'){
+        char opcao3 = sc.nextLine().charAt(0);
+        if(opcao3== 's'){
             System.out.print("1- Editar produto\n2- Remover produto\nOpção: ");
             int opcao2 = sc.nextInt();
+            sc.nextLine();
             if(opcao2 == 1){
                 editarProduto();
             }else{
@@ -62,7 +61,19 @@ public class Fatura{
     }
 
     private void editarProduto(){
-
+        System.out.print("Código do produto a editar: ");
+        String codigo = sc.nextLine();
+        boolean encontrado = false;
+        for(Produtos p: getListaProdutos()){
+            if(p.getCodigo().equals(codigo)){
+                p.criarEditarProduto();
+                encontrado = true;
+                return;
+            }
+        }
+        if(!encontrado){
+            System.out.println("Produto não encontrado!");
+        }
     }
 
     private void removerProduto(){
@@ -89,11 +100,11 @@ public class Fatura{
                 char opcao1 = sc.next().charAt(0);
                 if(opcao1== 's'){
                     ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
-                    p.criarProduto();
+                    p.criarEditarProduto();
                     adicionarProduto(p);
                 }else{
                     ProdutoAlimentar p = new ProdutoAlimentar();
-                    p.criarProduto();
+                    p.criarEditarProduto();
                     adicionarProduto(p);
                 }
                 break;
@@ -127,7 +138,7 @@ public class Fatura{
             totalComIVA += p.valorTotalComIVA(localizacao);
 
             //imprime a informação do produto e os valores
-            System.out.println(p.toString() +
+            System.out.println(p  +
                     "\n Valor total sem IVA: " + p.valorTotalSemIVA() +
                     "\n Taxa de IVA: " + ivaProduto +
                     "\n Valor com IVA: " + p.valorComIVA(localizacao) +
