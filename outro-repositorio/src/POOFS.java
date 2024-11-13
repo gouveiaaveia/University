@@ -31,9 +31,10 @@ public class POOFS {
                     dados.mostrarListaClientes();
                     break;
                 case 4:
+                    sc.nextLine();
                     System.out.println("\nCriar fatura:");
                     System.out.print("NIF do cliente: ");
-                    int nif = sc.nextInt();
+                    String nif = sc.nextLine();
 
                     if(dados.getClientes().isEmpty()){
                         System.out.println("Sem nenhum cliente registado!");
@@ -41,7 +42,7 @@ public class POOFS {
                     }
 
                     for(Cliente c : dados.getClientes()){
-                        if(c.getNif() == nif){
+                        if(c.getNif().equals(nif)){
                             Fatura fatura = new Fatura(c);
                             fatura.criarFatura();
                             dados.adicionarFatura(fatura);

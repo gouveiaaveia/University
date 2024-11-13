@@ -47,7 +47,6 @@ public class ProdutoAlimentar extends Produtos{
                 }
             }
         }while(numero > 4);
-        sc.nextLine();
         return certificacoes;
     }
 
@@ -75,7 +74,8 @@ public class ProdutoAlimentar extends Produtos{
     @Override
     public double obterIVA(String localizacao) {
 
-        TabelaIVA tabela = TabelaIVA.getTabelaPorLocalizacao(localizacao);
+        TabelaIVA tabelaBase = new TabelaIVA(0,0,0);
+        TabelaIVA tabela = tabelaBase.getTabelaPorLocalizacao(localizacao.toLowerCase());
 
         switch (tipoTaxa) {
             case Reduzida:

@@ -2,7 +2,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public abstract class Produtos{
-    protected int codigo;
+    protected String codigo;
     protected String nome;
     protected String descricao;
     protected int quantidade;
@@ -12,7 +12,7 @@ public abstract class Produtos{
     Random rand = new Random();
 
     public Produtos(){
-       this.codigo = 0;
+       this.codigo = "";
        this.nome = "";
        this.descricao = "";
        this.quantidade = 0;
@@ -20,7 +20,8 @@ public abstract class Produtos{
     }
 
     public void criarProduto(){
-        setCodigo(rand.nextInt(10000));
+        System.out.print("Código do produto: ");
+        setCodigo(sc.nextLine());
         System.out.print("Nome do produto: ");
         setNome(sc.nextLine());
         System.out.print("Descrição do produto: ");
@@ -42,10 +43,10 @@ public abstract class Produtos{
     };
 
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
     public String getNome() {

@@ -5,25 +5,23 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Fatura{
-    private int numeroFatura;
+    private String numeroFatura;
     private Cliente cliente;
     private String data;
     private ArrayList<Produtos> listaProdutos;
 
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random();
 
     public Fatura(Cliente cliente){
-        this.numeroFatura=0;
+        this.numeroFatura= "";
         this.cliente = cliente;
-        this.data=data;
+        this.data= "";
         this.listaProdutos= new ArrayList<>();
     }
 
     public void criarFatura(){
         System.out.print("Número da fatura: ");
-        setNumeroFatura(sc.nextInt());
-        sc.nextLine();
+        setNumeroFatura(sc.nextLine());
         System.out.print("Data da fatura (dd/mm/aa): ");
         setData(sc.nextLine());
         System.out.print("Pretende adicionar algum produto? (s/n): ");
@@ -36,8 +34,9 @@ public class Fatura{
                 System.out.println("Fatura criada!!");
                 break;
             };
+            sc.nextLine();
             System.out.print("Deseja adicionar mais algum produto? (s/n):");
-        }while(opcao2 == 1);
+        }while(opcao2 == 's');
     }
 
     public void editarFatura(){
@@ -45,11 +44,36 @@ public class Fatura{
         char opcao = sc.nextLine().charAt(0);
         if(opcao== 's'){
             System.out.print("Número da fatura: ");
-            setNumeroFatura(sc.nextInt());
+            setNumeroFatura(sc.nextLine());
         }else{
             System.out.print("Data da fatura (dd/mm/aa): ");
             setData(sc.nextLine());
         }
+        System.out.print("Pretende alterar algum produto? (s/n): ");
+        if(opcao== 's'){
+            System.out.print("1- Editar produto\n2- Remover produto\nOpção: ");
+            int opcao2 = sc.nextInt();
+            if(opcao2 == 1){
+                editarProduto();
+            }else{
+                removerProduto();
+            }
+        }
+    }
+
+    private void editarProduto(){
+
+    }
+
+    private void removerProduto(){
+        System.out.print("Código do produto que deseja remover: ");
+        String codigo = sc.nextLine();
+        for(Produtos p: getListaProdutos()){
+            if(p.getCodigo().equals(codigo)){
+                listaProdutos.remove(p);
+            }
+        }
+        System.out.println("Produto removido com sucesso!");
     }
 
     public void adicionarProduto(Produtos produto){
@@ -88,8 +112,8 @@ public class Fatura{
         double totalComIVA = 0;
         double valorTotalDoIVA = 0;
 
-        System.out.println("Número da fatura: " + this.numeroFatura
-                + "\nData da fatura (dd/mm/aa): " + this.data +
+        System.out.println("\nInformações da fatura:\nNúmero da fatura: " + this.numeroFatura
+                + "\nData da fatura (dd/mm/aa): " + this.data + " " +
                 getCliente().toString()
                 + "\nProdutos:");
 
@@ -122,11 +146,11 @@ public class Fatura{
         return "Adicionar informação das faturas";
     }
 
-    public int getNumeroFatura() {
+    public String getNumeroFatura() {
         return numeroFatura;
     }
 
-    public void setNumeroFatura(int numeroFatura) {
+    public void setNumeroFatura(String numeroFatura) {
         this.numeroFatura = numeroFatura;
     }
 

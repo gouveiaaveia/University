@@ -3,14 +3,14 @@ import java.util.Scanner;
 public class Cliente{
 
     private String nome;
-    private int nif;
+    private String nif;
     private String localizacao;
 
     Scanner sc = new Scanner(System.in);
 
     public Cliente(){
         this.nome = "";
-        this.nif = 0;
+        this.nif = "";
         this.localizacao = "";
     }
 
@@ -18,8 +18,7 @@ public class Cliente{
         System.out.print("\nNome: ");
         setNome(sc.nextLine());
         System.out.print("NIF: ");
-        setNif(sc.nextInt());
-        sc.nextLine();
+        setNif(sc.nextLine());
         System.out.print("Localização: ");
         setLocalizacao(sc.nextLine());
     }
@@ -34,10 +33,10 @@ public class Cliente{
     public void setNome(String nome) {
         this.nome = nome;
     }
-    public int getNif() {
+    public String getNif() {
         return nif;
     }
-    public void setNif(int nif) {
+    public void setNif(String nif) {
         this.nif = nif;
     }
     public String getLocalizacao() {

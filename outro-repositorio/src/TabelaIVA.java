@@ -11,14 +11,14 @@ public class TabelaIVA {
         this.taxaNormal = taxaNormal;
     }
 
-    //para não termos que instanciar a class
-    public static TabelaIVA getTabelaPorLocalizacao(String localizacao) {
+    // Método não estático para obter a tabela IVA com base na localização
+    public TabelaIVA getTabelaPorLocalizacao(String localizacao) {
         switch (localizacao) {
-            case "Portugal Continental":
+            case "portugal continental":
                 return new TabelaIVA(6, 13, 23);
-            case "Madeira":
+            case "madeira":
                 return new TabelaIVA(5, 12, 22);
-            case "Açores":
+            case "açores":
                 return new TabelaIVA(4, 10, 18);
             default:
                 throw new IllegalArgumentException("Localização desconhecida");
