@@ -36,7 +36,6 @@ public abstract class Produtos{
     public abstract double valorTotalSemIVA();
     public abstract double obterIVA(String localizacao);
     public abstract double valorComIVA(String localizacao);
-    public abstract void determinarTipoTaxaIVA();
 
     public String toString(){
         return "";

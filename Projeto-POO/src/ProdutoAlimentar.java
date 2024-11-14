@@ -89,7 +89,6 @@ public class ProdutoAlimentar extends Produtos{
         }
     }
 
-    @Override
     public void determinarTipoTaxaIVA(){
         if(!certificacoes.isEmpty()){
             tipoTaxa = TipoTaxa.Reduzida;

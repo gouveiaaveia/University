@@ -5,7 +5,7 @@ public class TesteInicializacao {
         Cliente clienteTeste = new Cliente();
         clienteTeste.setNome("João Silva");
         clienteTeste.setNif("123456789");
-        clienteTeste.setLocalizacao("madeira");
+        clienteTeste.setLocalizacao("portugal continental");
         dados.adicionarCliente(clienteTeste);
         System.out.println("Cliente criado para teste: " + clienteTeste);
 
@@ -13,6 +13,7 @@ public class TesteInicializacao {
         ProdutoAlimentar produtoTeste = new ProdutoAlimentar();
         produtoTeste.setCodigo("P001");
         produtoTeste.setNome("Maçã Biológica");
+        produtoTeste.setCategotia("vinho");
         produtoTeste.setPrecoUnitario(2);
         produtoTeste.setQuantidade(10);
         produtoTeste.determinarTipoTaxaIVA();

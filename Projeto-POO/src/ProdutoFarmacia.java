@@ -19,11 +19,6 @@ public abstract class ProdutoFarmacia extends Produtos{
     }
 
     @Override
-    public void determinarTipoTaxaIVA() {
-
-    }
-
-    @Override
     public double valorTotalComIVA(String localizacao) {
         return 0;
     }
