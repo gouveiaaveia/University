@@ -7,6 +7,9 @@ public class Fatura{
     private String data;
     private ArrayList<Produtos> listaProdutos;
 
+    private double valorComIVA;
+    private double valorSemIVA;
+
     Scanner sc = new Scanner(System.in);
 
     public Fatura(Cliente cliente){
@@ -118,6 +121,15 @@ public class Fatura{
         }
     }
 
+    public void calcularValoresIVA(){
+        setValorComIVA(0);
+        setValorSemIVA(0);
+        for(Produtos p : getListaProdutos()){
+            setValorSemIVA(getValorComIVA() + p.valorTotalSemIVA());
+            setValorComIVA(getValorComIVA() + p.valorTotalComIVA(cliente.getLocalizacao()));
+        }
+    }
+
     public void faturaUnica() {
         double totalSemIVA = 0;
         double totalComIVA = 0;
@@ -154,7 +166,7 @@ public class Fatura{
 
 
     public String toString(){
-        return "Adicionar informação das faturas";
+        return "Número da fatura: " + this.numeroFatura + "\nInformação do cliente: " + getCliente().toString() + "\n";
     }
 
     public String getNumeroFatura() {
@@ -187,5 +199,21 @@ public class Fatura{
 
     public void setListaProdutos(ArrayList<Produtos> listaProdutos) {
         this.listaProdutos = listaProdutos;
+    }
+
+    public double getValorComIVA() {
+        return valorComIVA;
+    }
+
+    public void setValorComIVA(double valorComIVA) {
+        this.valorComIVA = valorComIVA;
+    }
+
+    public double getValorSemIVA() {
+        return valorSemIVA;
+    }
+
+    public void setValorSemIVA(double valorSemIVA) {
+        this.valorSemIVA = valorSemIVA;
     }
 }

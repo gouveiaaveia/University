@@ -63,7 +63,9 @@ public class Dados{
             return;
         }
         for(Fatura f : faturas){
-            System.out.println(f);
+            f.calcularValoresIVA();
+            System.out.println(f + "Número de produtos: " + f.getListaProdutos().size() + "\nValor total sem IVA: " +
+                    f.getValorSemIVA() + "\nValor total com IVA: " + f.getValorComIVA());
         }
     }
 
