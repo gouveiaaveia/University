@@ -17,7 +17,6 @@ public class TabelaIVA {
         this.Taxaprescricao = TaxaPrescricao;
     }
 
-    // Método não estático para obter a tabela IVA com base na localização
     public TabelaIVA getTabelaPorLocalizacao(String localizacao, String tipoProduto) {
         if(tipoProduto.equals("alimentar")){
             switch (localizacao) {

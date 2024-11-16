@@ -11,6 +11,7 @@ public class Fatura{
     private double valorSemIVA;
 
     Scanner sc = new Scanner(System.in);
+    Verificacoes v =  new Verificacoes();
 
     public Fatura(Cliente cliente){
         this.numeroFatura= "";
@@ -28,6 +29,7 @@ public class Fatura{
         char opcao2;
         do{
             opcao2 = sc.nextLine().charAt(0);
+            v.verificaSimNao(opcao2);
             if(opcao2=='s'){
                 criarProduto();
             }else if(opcao2 == 'n'){
@@ -42,6 +44,7 @@ public class Fatura{
     public void editarFatura(){
         System.out.print("Deseja alterar o número da fatura? (s/n): ");
         char opcao = sc.nextLine().charAt(0);
+        v.verificaSimNao(opcao);
         if(opcao== 's'){
             System.out.print("Número da fatura: ");
             setNumeroFatura(sc.nextLine());
@@ -51,10 +54,20 @@ public class Fatura{
         }
         System.out.print("Pretende alterar algum produto? (s/n): ");
         char opcao3 = sc.nextLine().charAt(0);
+        v.verificaSimNao(opcao3);
+
         if(opcao3== 's'){
-            System.out.print("1- Editar produto\n2- Remover produto\nOpção: ");
-            int opcao2 = sc.nextInt();
+
+            System.out.print("1- Editar produto\n2- Remover produto\n");
+            int opcao2;
+
+            do{
+                System.out.print("Opção: ");
+                String valor = sc.nextLine();
+                opcao2 = v.stringInteger(valor);
+            }while(opcao2 == 0);
             sc.nextLine();
+
             if(opcao2 == 1){
                 editarProduto();
             }else{
@@ -96,11 +109,19 @@ public class Fatura{
 
     private void criarProduto(){
         System.out.print("Tipo de produto a adicionar:\n1- Produto alimentar\n2- Produto Farmaceutico\nOpção:");
-        int opcao = sc.nextInt();
+        int opcao;
+
+        do{
+            System.out.print("Opção: ");
+            String valor = sc.nextLine();
+            opcao = v.stringInteger(valor);
+        }while(opcao == 0);
+
         switch(opcao){
             case 1:
                 System.out.print("Produto biológico? (s/n): ");
                 char opcao1 = sc.next().charAt(0);
+                v.verificaSimNao(opcao1);
                 if(opcao1== 's'){
                     ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
                     p.criarEditarProduto();
