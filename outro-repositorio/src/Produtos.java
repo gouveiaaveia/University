@@ -9,7 +9,7 @@ public abstract class Produtos{
     protected double precoUnitario;
 
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random();
+    Verificacoes v = new Verificacoes();
 
     public Produtos(){
        this.codigo = "";
@@ -26,10 +26,22 @@ public abstract class Produtos{
         setNome(sc.nextLine());
         System.out.print("Descrição do produto: ");
         setDescricao(sc.nextLine());
-        System.out.print("Quantidade do produto: ");
-        setQuantidade(sc.nextInt());
-        System.out.print("Preço unitário do produto: ");
-        setPrecoUnitario(sc.nextDouble());
+
+        int valor;
+        do{
+            System.out.print("Quantidade do produto: ");
+            String q = sc.nextLine();
+            valor = v.stringInteger(q);
+        }while(valor == 0);
+        setQuantidade(valor);
+
+        double valor2;
+        do{
+            System.out.print("Preço unitário do produto: ");
+            String q = sc.nextLine();
+            valor2 = v.stringDouble(q);
+        }while(valor2 == 0);
+        setPrecoUnitario(valor2);
     }
 
     public abstract double valorTotalComIVA(String localizacao);

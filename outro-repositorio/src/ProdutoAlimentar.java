@@ -14,6 +14,7 @@ public class ProdutoAlimentar extends Produtos{
     protected ArrayList<String> certificacoes;
 
     Scanner sc = new Scanner(System.in);
+    Verificacoes v = new Verificacoes();
 
     public ProdutoAlimentar() {
         super();
@@ -35,32 +36,25 @@ public class ProdutoAlimentar extends Produtos{
 
     protected ArrayList<String> certificacoes(){
         ArrayList<String> certificacoes = new ArrayList<>(4);
-        System.out.print("Quantas certificações pertende adicionar (0-4): ");
-        int numero;
-        do{
-            numero = sc.nextInt();
-            sc.nextLine();
-            if(numero > 4){
-                System.out.println("O máximo de certificações é 4");
-            }else{
-                for(int i = 0; i< numero; i++){
-                    System.out.print("Digite a certificação "+(i+1)+": ");
-                    certificacoes.add(sc.nextLine());
-                }
-            }
-        }while(numero > 4);
+
+        int numero = v.numeroCertificacoes();
+
+        for(int i = 0; i< numero; i++){
+            System.out.print("Digite a certificação "+(i+1)+": ");
+            certificacoes.add(sc.nextLine());
+        }
         return certificacoes;
     }
 
     @Override
     public double valorComIVA(String localizacao){
         if(getCertificacoes().size() == 4){
-            return extraCertificacoes(localizacao) * getPrecoUnitario();
+            return getPrecoUnitario() + (extraCertificacoes(localizacao) * getPrecoUnitario());
         }else if(getCategotia().equalsIgnoreCase("vinho")){
-            return extraCategoriaVinho(localizacao) * getPrecoUnitario();
+            return getPrecoUnitario() + (extraCategoriaVinho(localizacao) * getPrecoUnitario());
         }
 
-        return obterIVA(localizacao) * getPrecoUnitario();
+        return getPrecoUnitario() + (obterIVA(localizacao) * getPrecoUnitario());
     }
 
     @Override
@@ -70,7 +64,7 @@ public class ProdutoAlimentar extends Produtos{
 
     @Override
     public double valorTotalComIVA(String localizacao){
-        return getPrecoUnitario() + (getQuantidade() * valorComIVA(localizacao));
+        return getQuantidade() * valorComIVA(localizacao);
     }
 
     @Override

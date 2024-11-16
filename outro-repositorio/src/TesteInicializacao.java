@@ -5,7 +5,7 @@ public class TesteInicializacao {
         Cliente clienteTeste = new Cliente();
         clienteTeste.setNome("João Silva");
         clienteTeste.setNif("123456789");
-        clienteTeste.setLocalizacao("portugal continental");
+        clienteTeste.setLocalizacao("madeira");
         dados.adicionarCliente(clienteTeste);
         System.out.println("Cliente criado para teste: " + clienteTeste);
 
