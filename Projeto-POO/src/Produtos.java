@@ -2,50 +2,62 @@ import java.util.Random;
 import java.util.Scanner;
 
 public abstract class Produtos{
-    protected int codigo;
+    protected String codigo;
     protected String nome;
     protected String descricao;
     protected int quantidade;
     protected double precoUnitario;
 
     Scanner sc = new Scanner(System.in);
-    Random rand = new Random();
+    Verificacoes v = new Verificacoes();
 
     public Produtos(){
-       this.codigo = 0;
+       this.codigo = "";
        this.nome = "";
        this.descricao = "";
        this.quantidade = 0;
        this.precoUnitario = 0;
     }
 
-    public void criarProduto(){
-        setCodigo(rand.nextInt(10000));
+    public void criarEditarProduto(){
+        System.out.print("Código do produto: ");
+        setCodigo(sc.nextLine());
         System.out.print("Nome do produto: ");
         setNome(sc.nextLine());
         System.out.print("Descrição do produto: ");
         setDescricao(sc.nextLine());
-        System.out.print("Quantidade do produto: ");
-        setQuantidade(sc.nextInt());
-        System.out.print("Preço unitário do produto: ");
-        setPrecoUnitario(sc.nextDouble());
+
+        int valor;
+        do{
+            System.out.print("Quantidade do produto: ");
+            String q = sc.nextLine();
+            valor = v.stringInteger(q);
+        }while(valor == 0);
+        setQuantidade(valor);
+
+        double valor2;
+        do{
+            System.out.print("Preço unitário do produto: ");
+            String q = sc.nextLine();
+            valor2 = v.stringDouble(q);
+        }while(valor2 == 0);
+        setPrecoUnitario(valor2);
     }
 
     public abstract double valorTotalComIVA(String localizacao);
     public abstract double valorTotalSemIVA();
     public abstract double obterIVA(String localizacao);
     public abstract double valorComIVA(String localizacao);
-    public abstract void determinarTipoTaxaIVA();
 
     public String toString(){
         return "";
     };
 
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
     public String getNome() {
