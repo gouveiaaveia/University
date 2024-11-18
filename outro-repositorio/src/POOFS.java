@@ -21,13 +21,25 @@ public class POOFS {
                 case 1:
                     System.out.println("\nCriar cliente: ");
                     Cliente cliente = new Cliente();
-                    cliente.criarCliente();
+                    cliente.criarCliente(dados.getClientes());
                     dados.adicionarCliente(cliente);
                     System.out.println("Cliente adicionado com sucesso!");
                     break;
 
                 case 2:
-                    dados.encontrarCliente();
+                    if(dados.getClientes().isEmpty())System.out.print("\nErro: Lista vazia");
+                    else{
+                        String nif;
+                        do {
+                            System.out.print("\nNIF do Cliente que deseja editar: ");
+                            nif = sc.nextLine();
+                        } while (!v.VerificaNif(nif, dados.getClientes()));
+
+                        Cliente clienteEditar = dados.encontrarCliente(nif);
+
+                        if(clienteEditar==null)System.out.print("Erro: Cliente não encontrado, tente de novo\n");
+                        else clienteEditar.EditaCliente(dados.getClientes());
+                    }
                     break;
 
                 case 3:

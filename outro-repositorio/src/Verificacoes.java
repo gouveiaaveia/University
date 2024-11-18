@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Verificacoes {
 
@@ -63,4 +64,87 @@ public class Verificacoes {
             return 0;
         }
     }
+
+    public boolean VerificaNif(String nif, ArrayList<Cliente> listaCliente) {
+
+        if (nif == null || nif.length() != 9) {
+            System.out.println("Erro: O NIF deve ter 9 dígitos.");
+            return false;
+        }
+
+        if (!nif.matches("^[0-9]+$")) {
+            System.out.println("Erro: O NIF deve ter apenas números.");
+            return false;
+        }
+
+        return true;
+    }
+
+    public boolean VerificaLocalizacao(String localizacao) {
+        if (localizacao == null){
+            System.out.println("Erro:Localização incorreta.");
+            return false;
+        }
+        if(!localizacao.equalsIgnoreCase("madeira") && !localizacao.equalsIgnoreCase("portugal continental") && !localizacao.equalsIgnoreCase("açores")){
+            System.out.println("Erro:Localização incorreta.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean VerificaData(String data){
+        if (data == null || data.length() > 10) {
+            return false;
+        }
+
+        String dia = data.substring(0, 2);
+        String mes = data.substring(3, 5);
+        String ano = data.substring(6, 10);
+
+        if(!dia.matches("^[0-9]+$") && !mes.matches("^[0-9]+$") && !ano.matches("^[0-9]+$")) return false;
+
+        int diaInt = 0, mesInt = 0, anoInt = 0;
+        diaInt =Integer.parseInt(dia);
+        mesInt = Integer.parseInt(mes);
+        anoInt = Integer.parseInt(ano);
+
+
+        if (mesInt < 1 || mesInt > 12) return false;
+
+
+        if(anoInt<1500) return false;
+
+        if(anoInt%4==0){
+            if (mesInt==2) {
+                if(diaInt<1 || diaInt>29) return false;
+            }
+        }
+
+        if(mesInt==6||mesInt==4 || mesInt==9 || mesInt==11){
+            if(diaInt<1 || diaInt>30)return false;
+        }
+
+        if(mesInt==1||mesInt==3 || mesInt==5 || mesInt==7 || mesInt==8 || mesInt==10 || mesInt==12){
+            if(diaInt<1 || diaInt>31)return false;
+        }
+        return true;
+    }
+
+
+    public boolean VerificaCategoria(String categoria){
+        if(!categoria.equalsIgnoreCase("Beleza") && !categoria.equalsIgnoreCase("BemEstar") && !categoria.equalsIgnoreCase("Bebes") && !categoria.equalsIgnoreCase("Animais") && !categoria.equalsIgnoreCase("Outros")){
+            System.out.println("Erro: Categoria incorreta.");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean VerificaString(String palavra, int tamanho) {
+        if (palavra==null || palavra.matches("^[0-9]+$") || palavra.length()<=tamanho){
+            System.out.println("Erro.");
+            return false;
+        }
+        return true;
+    }
 }
+
