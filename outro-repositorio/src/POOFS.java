@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class POOFS {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        Verificacoes v = new Verificacoes();
         boolean continuar = true;
         Dados dados = new Dados();
         TesteInicializacao.inicializarDadosDeTeste(dados);
@@ -13,7 +14,8 @@ public class POOFS {
             System.out.println("MENU:\n1 - Criar cliente\n2 - Editar cliente\n3 - Lista de clientes\n4 - Criar fatura\n5 - Editar fatura\n6 - Lista de faturas\n7 - Visualizar fatura\n8 - Sair");
             System.out.print("=======================\nOpção: ");
 
-            int opcao = sc.nextInt();
+            String op = sc.nextLine();
+            int opcao = v.opcaoMenu(op);
 
             switch(opcao) {
                 case 1:
