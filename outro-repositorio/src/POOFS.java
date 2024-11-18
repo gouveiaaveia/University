@@ -48,7 +48,6 @@ public class POOFS {
                     break;
 
                 case 4:
-                    sc.nextLine();
                     System.out.println("\nCriar fatura:");
                     System.out.print("NIF do cliente: ");
                     String nif = sc.nextLine();
@@ -58,12 +57,27 @@ public class POOFS {
                         break;
                     }
 
-                    boolean clienteEncontrado = false;  // Variável de controle
+                    boolean clienteEncontrado = false;// Variável de controle
+                    boolean existe;
+                    String n;
 
                     for(Cliente c : dados.getClientes()){
                         if(c.getNif().equals(nif)){
                             Fatura fatura = new Fatura(c);
-                            fatura.criarFatura();
+                            do{
+                                existe = false;
+                                System.out.print("Número da fatura: ");
+                                n = sc.nextLine();
+                                for(Fatura f: dados.getFaturas()){
+                                    if (n.equals(f.getNumeroFatura())){
+                                        System.out.println("\nFatura já existe!!");
+                                        existe = true;
+                                        break;
+                                    }
+                                }
+                            }while(existe);
+
+                            fatura.criarFatura(n);
                             dados.adicionarFatura(fatura);
                             clienteEncontrado = true;  // Cliente foi encontrado
                             break;

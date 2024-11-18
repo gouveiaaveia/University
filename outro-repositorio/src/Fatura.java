@@ -20,9 +20,8 @@ public class Fatura{
         this.listaProdutos= new ArrayList<>();
     }
 
-    public void criarFatura(){
-        System.out.print("Número da fatura: ");
-        setNumeroFatura(sc.nextLine());
+    public void criarFatura(String n){
+        setNumeroFatura(n);
         System.out.print("Data da fatura (dd/mm/aa): ");
         setData(sc.nextLine());
         System.out.print("Pretende adicionar algum produto? (s/n): ");

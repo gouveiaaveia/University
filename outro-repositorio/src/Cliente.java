@@ -48,7 +48,7 @@ public class Cliente{
 
 
     public void EditaCliente(ArrayList<Cliente> listaCliente){
-        System.out.print("\nEditar nome?");
+        System.out.print("\nEditar nome? (sim/não)");
         String resposta=sc.nextLine();
         if(resposta.equalsIgnoreCase("sim")){
             String nome;
