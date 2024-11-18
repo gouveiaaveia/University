@@ -1,41 +1,67 @@
-public abstract class ProdutoFarmacia extends Produtos{
+import java.util.Scanner;
+
+public class ProdutoFarmacia extends Produtos{
 
     private String categoria;
-
-    enum Categorias{
-        Beleza,
-        BemEstar,
-        Bebes,
-        Animais,
-        Outro;
-    }
+    Scanner scanner = new Scanner(System.in);
+    Verificacoes verificacoes= new Verificacoes();
 
     public ProdutoFarmacia(){
         super();
+        this.categoria="";
     }
 
-    public void criarProduto(){
+    public void CriarNaopPrescrito(){
+        super.criarEditarProduto();
+        setCategoria(Categoria());
+    }
 
+    private String Categoria(){
+        String categoria;
+
+        do{
+            System.out.print("\nCategoria (Beleza,BemEstar,Bebes,Animais,Outros):");
+            categoria=scanner.nextLine();
+        }while(!verificacoes.VerificaCategoria(categoria));
+        return categoria;
+    }
+
+    public String toString(){
+        String str="";
+        str+=super.toString();
+        str+="Produto Farmacia Não Prescrito\n";
+        str+="Categoria: "+this.categoria+"\n";
+        return str;
+    }
+
+    public void setCategoria(String categoria) {
+        this.categoria = categoria;
+    }
+    public String getCategoria() {
+        return categoria;
     }
 
     @Override
-    public double valorTotalComIVA(String localizacao) {
-        return 0;
-    }
+    public double obterIVA(String localizacao){
+        TabelaIVA tabela= new TabelaIVA(0,0);
+        TabelaIVA tabelaValores= tabela.getTabelaPorLocalizacao(localizacao, "farmacia");
 
-    @Override
-    public double valorTotalSemIVA() {
-        return 0;
-    }
+        if(this.categoria.equalsIgnoreCase("animais")) return((tabelaValores.getTaxaNormal()*100)-1/100);
 
-    @Override
-    public double obterIVA(String localizacao) {
-        return 0;
+        return tabelaValores.getTaxaNormal();
     }
-
     @Override
-    public double valorComIVA(String localizacao) {
-        return 0;
+    public double valorComIVA(String localizacao){ //iva por cada um produtor
+        return this.precoUnitario*obterIVA(localizacao);
+
+    }
+    @Override
+    public double valorTotalSemIVA(){
+        return (double)this.quantidade*this.precoUnitario;
+    }
+    @Override
+    public double valorTotalComIVA(String localizacao){
+        return this.quantidade*valorComIVA(localizacao);
     }
 
 

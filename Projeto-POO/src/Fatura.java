@@ -60,17 +60,16 @@ public class Fatura{
 
             System.out.print("1- Editar produto\n2- Remover produto\n");
             int opcao2;
-
             do{
                 System.out.print("Opção: ");
                 String valor = sc.nextLine();
                 opcao2 = v.stringInteger(valor);
-            }while(opcao2 == 0);
+            }while(opcao2 != 1 && opcao2 != 2);
             sc.nextLine();
 
             if(opcao2 == 1){
                 editarProduto();
-            }else{
+            }else {
                 removerProduto();
             }
         }
@@ -95,12 +94,17 @@ public class Fatura{
     private void removerProduto(){
         System.out.print("Código do produto que deseja remover: ");
         String codigo = sc.nextLine();
+        boolean removido = false;
         for(Produtos p: getListaProdutos()){
             if(p.getCodigo().equals(codigo)){
                 listaProdutos.remove(p);
+                System.out.println("Produto removido com sucesso!");
+                break;
             }
         }
-        System.out.println("Produto removido com sucesso!");
+        if(!removido){
+            System.out.println("Produto não encontrado!");
+        }
     }
 
     public void adicionarProduto(Produtos produto){
@@ -115,7 +119,7 @@ public class Fatura{
             System.out.print("Opção: ");
             String valor = sc.nextLine();
             opcao = v.stringInteger(valor);
-        }while(opcao == 0);
+        }while(opcao != 1 && opcao != 2);
 
         switch(opcao){
             case 1:

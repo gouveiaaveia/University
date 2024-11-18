@@ -46,5 +46,5 @@ public class TabelaIVA {
     public double getTaxaReduzida() { return (double) taxaReduzida / 100; }
     public double getTaxaIntermedia() { return (double) taxaIntermedia / 100; }
     public double getTaxaNormal() { return (double) taxaNormal / 100; }
-    public double getTaxaprescricao() { return (double) Taxaprescricao / 100; }
+    public double getPrescricao() { return (double) Taxaprescricao / 100; }
 }

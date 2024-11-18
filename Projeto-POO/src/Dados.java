@@ -17,8 +17,11 @@ public class Dados{
     }
 
 
-    public void encontrarCliente(){
-
+    public Cliente encontrarCliente(String nif){
+        for(Cliente cliente: clientes){
+            if(nif.equals(cliente.getNif())) return cliente;
+        }
+        return null;
     }
 
     public void mostrarListaClientes(){
@@ -50,10 +53,16 @@ public class Dados{
     public void mostrarFatura(){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
+        boolean encontrada = false;
         for(Fatura f: faturas){
             if(f.getNumeroFatura().equals(numeroFatura)){
                 f.faturaUnica();
+                encontrada = true;
+                break;
             }
+        }
+        if(!encontrada){
+            System.out.println("Fatura não encontrada!");
         }
     }
 
