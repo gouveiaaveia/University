@@ -53,4 +53,14 @@ public class Verificacoes {
             return 0;
         }
     }
+
+    public int opcaoMenu(String op){
+        int opcao = 0;
+        try{
+            opcao = Integer.parseInt(op);
+            return opcao;
+        }catch (NumberFormatException e){
+            return 0;
+        }
+    }
 }
