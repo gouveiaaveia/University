@@ -21,24 +21,29 @@ public class Fatura{
     }
 
     public void criarFatura(){
-        System.out.print("Número da fatura: ");
-        setNumeroFatura(sc.nextLine());
-        System.out.print("Data da fatura (dd/mm/aa): ");
-        setData(sc.nextLine());
-        System.out.print("Pretende adicionar algum produto? (s/n): ");
-        char opcao2;
+        String numeroFatura;
         do{
-            opcao2 = sc.nextLine().charAt(0);
-            v.verificaSimNao(opcao2);
-            if(opcao2=='s'){
-                criarProduto();
-            }else if(opcao2 == 'n'){
-                System.out.println("Fatura criada!!");
-                break;
-            }
-            sc.nextLine();
-            System.out.print("Deseja adicionar mais algum produto? (s/n): ");
-        }while(opcao2 == 's');
+            System.out.print("\nNúmero da fatura: ");
+            numeroFatura=sc.nextLine();
+        }while(!v.VerificaNumeroFatura(numeroFatura));
+        setNumeroFatura(numeroFatura);
+
+       
+        String data;
+        do{
+            System.out.print("\nData da fatura (dd/mm/aaaa): ");
+            data=sc.nextLine();
+        }while(!v.VerificaData(data));
+        setData(data);
+        String resposta;
+
+        do{
+            System.out.print("\nDeseja adicionar algum produto?:");
+            resposta=sc.nextLine();
+            if(!resposta.equalsIgnoreCase("sim")) break;
+            criarProduto();
+
+        }while(resposta.equalsIgnoreCase("sim"));
     }
 
     public void editarFatura(){
@@ -134,11 +139,19 @@ public class Fatura{
                 break;
 
             case 2:
-                System.out.print("Tem prescrição médica?");
-                /*
-                Inserir linhas de código para casos de farmácia
-                 */
-                break;
+                System.out.print("\nTem prescrição médica?");
+                String prescrição= sc.nextLine();
+            if(prescrição.equalsIgnoreCase("sim")){
+                ProdutoFarmaciaPrescrito farmaciaPrescrito= new ProdutoFarmaciaPrescrito();
+                farmaciaPrescrito.CriarPrescrito();
+                AdicionarProduto(farmaciaPrescrito);
+            }
+            else{
+                ProdutoFarmaciaNaoPrescrito farmaciaNaoPrescrito= new ProdutoFarmaciaNaoPrescrito();
+                farmaciaNaoPrescrito.CriarNaopPrescrito();
+                AdicionarProduto(farmaciaNaoPrescrito);
+            }
+            break;
         }
     }
 
