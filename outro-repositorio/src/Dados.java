@@ -34,28 +34,38 @@ public class Dados{
 
     public void encontrarFatura(){
         System.out.print("Número da fatura: ");
-        int numeroFatura = sc.nextInt();
+        String numeroFatura = sc.nextLine();
+        boolean encontrada = false;
         for(Fatura f: faturas){
-            if(f.getNumeroFatura() == numeroFatura){
+            if(f.getNumeroFatura().equals(numeroFatura)){
                 f.editarFatura();
+                encontrada = true;
             }
         }
-        System.out.println("Fatura não encontrada");
+        if(!encontrada){
+            System.out.println("Fatura não encontrada");
+        }
     }
 
     public void mostrarFatura(){
         System.out.print("Número da fatura: ");
-        int numeroFatura = sc.nextInt();
+        String numeroFatura = sc.nextLine();
         for(Fatura f: faturas){
-            if(f.getNumeroFatura() == numeroFatura){
+            if(f.getNumeroFatura().equals(numeroFatura)){
                 f.faturaUnica();
             }
         }
     }
 
     public void mostrarListaFaturas(){
+        if(getFaturas().isEmpty()){
+            System.out.println("Sem nenhuma fatura registada no sistema!");
+            return;
+        }
         for(Fatura f : faturas){
-            System.out.println(f.toString());
+            f.calcularValoresIVA();
+            System.out.println(f + "Número de produtos: " + f.getListaProdutos().size() + "\nValor total sem IVA: " +
+                    f.getValorSemIVA() + "\nValor total com IVA: " + f.getValorComIVA());
         }
     }
 
