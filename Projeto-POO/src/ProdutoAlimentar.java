@@ -37,7 +37,11 @@ public class ProdutoAlimentar extends Produtos{
     protected ArrayList<String> certificacoes(){
         ArrayList<String> certificacoes = new ArrayList<>(4);
 
-        int numero = v.numeroCertificacoes();
+        int numero;
+        do{
+            String op = sc.nextLine();
+            numero = v.stringInteger(op);
+        }while(numero > 4 || numero == 0);
 
         for(int i = 0; i< numero; i++){
             System.out.print("Digite a certificação "+(i+1)+": ");

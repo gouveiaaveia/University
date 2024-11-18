@@ -13,25 +13,6 @@ public class Verificacoes {
         return c;
     }
 
-    public int numeroCertificacoes(){
-        boolean entradaValida = false;
-        int valor = 0;
-        String num;
-
-        while(!entradaValida){
-
-            System.out.print("Quantas certificações pertende adicionar (0-4): ");
-            num = sc.nextLine();
-
-            try{
-                valor = Integer.parseInt(num);
-                entradaValida = true;
-            } catch (NumberFormatException e) {
-                System.out.print("Inválido!! Introduza um número entre 1 e 4\nOpção: ");
-            }
-        }
-        return valor;
-    }
 
     public int stringInteger(String op){
         int valor = 0;
