@@ -8,13 +8,13 @@ public class Fatura  implements Serializable{
     private Cliente cliente;
     private String data;
     private ArrayList<Produtos> listaProdutos;
-    
+
 
     private double valorComIVA;
     private double valorSemIVA;
 
-    Scanner sc = new Scanner(System.in);
-    Verificacoes v =  new Verificacoes();
+    private transient  Scanner sc = new Scanner(System.in);
+    private transient Verificacoes v =  new Verificacoes();
 
     public Fatura(String numeroFatura, Cliente cliente, String data, ArrayList<Produtos> produtos){
         this.numeroFatura=numeroFatura;
@@ -39,7 +39,13 @@ public class Fatura  implements Serializable{
         System.out.print("Número da fatura: ");
         setNumeroFatura(sc.nextLine());
         System.out.print("Data da fatura (dd-mm-aaaa): ");
-        setData(sc.nextLine());
+
+        do{
+            String data = sc.nextLine();
+        }while(!v.verificaData(data));
+
+        setData(data);
+
         System.out.print("Pretende adicionar algum produto? (s/n): ");
         char opcao2;
         do{
@@ -68,7 +74,7 @@ public class Fatura  implements Serializable{
         v.verificaSimNao(opcao3);
 
         if(opcao3== 's'){
-            System.out.print("1- Editar quantidade do produto\n2- Remover produto\n3-Adicionar produto ");
+            System.out.print("1- Editar quantidade do produto\n2- Remover produto\n3- Adicionar produto\n");
             int opcao2;
             do{
                 System.out.print("Opção: ");
@@ -78,17 +84,17 @@ public class Fatura  implements Serializable{
             sc.nextLine();
 
             if(opcao2 == 1){
-                EditarQuantidadeProduto();
+                editarQuantidadeProduto();
             }else if(opcao2==2){
                 removerProduto();
             }
             else{ //adicionar produto à fatura
-                AdicionarProdutoFatura(dados);
+                adicionarProdutoFatura(dados);
             }
         }
     }
 
-    private void AdicionarProdutoFatura(Dados dados){
+    private void adicionarProdutoFatura(Dados dados){
         String valor;
         boolean verificaCodigo=true;
         int opcao;
@@ -105,13 +111,13 @@ public class Fatura  implements Serializable{
                 verificaCodigo=false;
             }
         }
-        
+
         if(!verificaCodigo) criarProduto(dados);
     }
 
 
 
-    private void EditarQuantidadeProduto(){  //só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
+    private void editarQuantidadeProduto(){  //só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
         System.out.print("Código do produto a editar: ");
         String codigo = sc.nextLine();
         boolean encontrado = false;
@@ -149,7 +155,7 @@ public class Fatura  implements Serializable{
         }
     }
 
-    public void AdicionarProduto(Produtos produto){
+    public void adicionarProduto(Produtos produto){
         for(Produtos p:listaProdutos){
             if(p.getCodigo().equals(produto.getCodigo())){
                 System.out.println("\nProduto já existe na fatura, incrementar quantidade.");
@@ -161,11 +167,11 @@ public class Fatura  implements Serializable{
     }
 
     private void criarProduto(Dados dados){
-        String codigo=v.VerificaCodigo();
+        String codigo=v.verificaCodigo();
         boolean verifica;
-        Produtos produtoEncontrar=dados.EncontrarProdutoDados(codigo);
+        Produtos produtoEncontrar=dados.encontrarProdutoDados(codigo);
         //verifica se o produto ja esta criado na lista dos dados
-    
+
         if(produtoEncontrar==null){
             verifica=false;
             System.out.print("Tipo de produto a adicionar:\n1- Produto alimentar\n2- Produto Farmaceutico\nOpção:");
@@ -176,8 +182,8 @@ public class Fatura  implements Serializable{
                 opcao = v.stringInteger(valor);
             }while(opcao != 1 && opcao != 2);
 
-            
-            
+
+
             switch(opcao){
                 case 1:
                     System.out.print("Produto biológico? (s/n): ");
@@ -186,46 +192,46 @@ public class Fatura  implements Serializable{
                     if(opcao1== 's'){
                         ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
                         p.criarEditarProduto(dados);
-                        AdicionarProduto(p); //adicionar à lista faturas
-                        dados.AdicionarPordutosDados(p);
+                        adicionarProduto(p); //adicionar à lista faturas
+                        dados.adicionarPordutosDados(p);
 
                     }else{
                         ProdutoAlimentar p = new ProdutoAlimentar();
                         p.criarEditarProduto(dados);
-                        AdicionarProduto(p);
-                        dados.AdicionarPordutosDados(p);
+                        adicionarProduto(p);
+                        dados.adicionarPordutosDados(p);
                     }
-                 
+
                     break;
 
                 case 2:
                     System.out.print("Tem prescrição médica?");
-                    String prescrição= sc.nextLine();
-                    if(prescrição.equalsIgnoreCase("sim")){
+                    String prescricoo= sc.nextLine();
+                    if(prescricoo.equalsIgnoreCase("sim")){
                         ProdutoFarmaciaPrescrito farmaciaP= new ProdutoFarmaciaPrescrito();
                         farmaciaP.CriarPrescrito(verifica,codigo);
-                        AdicionarProduto(farmaciaP);
-                        dados.AdicionarPordutosDados(farmaciaP);
+                        adicionarProduto(farmaciaP);
+                        dados.adicionarPordutosDados(farmaciaP);
                     }
                     else{
                         ProdutoFarmacia farmacia= new ProdutoFarmacia();
-                        farmacia.CriarNaoPrescrito(verifica,codigo);
-                        AdicionarProduto(farmacia);
-                        dados.AdicionarPordutosDados(farmacia);
+                        farmacia.criarNaoPrescrito(verifica ,codigo);
+                        adicionarProduto(farmacia);
+                        dados.adicionarPordutosDados(farmacia);
                     }
 
                     break;
             }
-        } 
-            
+        }
+
         else { //se ja existir eu só vou pedir a quantidade do produto
             //produtoEncontrar vai estar à apontar para a mesma class do ooutro que ja existe
             verifica=true;
             boolean verificaListaProduto=false;
             produtoEncontrar.criarProdutosComum(verifica,codigo);
         }
-            
-        
+
+
     }
 
 
@@ -275,7 +281,7 @@ public class Fatura  implements Serializable{
 
 
     public String toString(){
-        return "Número da fatura: " + this.numeroFatura + "\nInformação do cliente: " + getCliente().toString() + "\n";
+        return "\nNúmero da fatura: " + this.numeroFatura + "\nInformação do cliente: " + getCliente().toString() + "\n";
     }
 
     public String getNumeroFatura() {

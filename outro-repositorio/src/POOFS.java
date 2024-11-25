@@ -6,14 +6,18 @@ public class POOFS {
         Verificacoes v = new Verificacoes();
         boolean continuar = true;
         Dados dados = new Dados();
-        TesteInicializacao.inicializarDadosDeTeste(dados);
-        String caminhoFicheroTexto="../Ficheiros/ficheiro.text";
-        String caminhoFicheiroObjetos="../Ficheiros/ficheiroObjetos.text";
-        Ficheiros ficheiro=new Ficheiros(caminhoFicheroTexto);
-        
-        if(ficheiro.VerificaFicheiro()) 
-        else ficheiro.LerFicheiroTexto(dados);
-        dados.mostrarProdutos();
+
+        String ficheiroTexto = "../Ficheiros/ficheiro.text";
+        String ficheiroObj = "ficheiroObj.obj";
+
+        Ficheiros f = new Ficheiros(ficheiroTexto, ficheiroObj);
+
+        if(!f.verificaFicheiro()){ //caso do ficheiro de objetos não existir
+            f.lerFicheiroTexto(dados);
+        }else{
+            f.lerFicheiroObjetos(dados);
+        }
+
         do {
             System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
@@ -40,7 +44,7 @@ public class POOFS {
                         do {
                             System.out.print("\nNIF do Cliente que deseja editar: ");
                             nif = sc.nextLine();
-                        } while (!v.VerificaNif(nif, dados.getClientes()));
+                        } while (!v.verificaNif(nif, dados.getClientes()));
 
                         Cliente clienteEditar = dados.encontrarCliente(nif);
 
@@ -75,8 +79,8 @@ public class POOFS {
                                 existe = false;
                                 System.out.print("Número da fatura: ");
                                 n = sc.nextLine();
-                                for(Fatura f: dados.getFaturas()){
-                                    if (n.equals(f.getNumeroFatura())){
+                                for(Fatura f1: dados.getFaturas()){
+                                    if (n.equals(f1.getNumeroFatura())){
                                         System.out.println("\nFatura já existe!!");
                                         existe = true;
                                         break;
@@ -97,14 +101,14 @@ public class POOFS {
 
                 case 5:
                     System.out.println("Editar fatura");
-                    Fatura f=dados.encontrarFatura();
-                    if(f!=null) f.editarFatura(dados);
+                    Fatura f1 =dados.encontrarFatura();
+                    if(f!=null) f1.editarFatura(dados);
                     break;
 
                 case 6:
                     System.out.println("Lista de faturas:");
                     dados.mostrarListaFaturas();
-    
+
                     break;
 
                 case 7:
@@ -114,7 +118,7 @@ public class POOFS {
                 case 8:
                     System.out.println("Saindo...");
                     continuar = false; // Encerra o loop
-                    ficheiro.EscreverFicheiroObjetos(dados);
+                    f.escreverFicheiroObjetos(dados);
                     break;
 
                 default:

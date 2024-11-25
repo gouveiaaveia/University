@@ -1,12 +1,14 @@
 import java.util.ArrayList;
-public class ProdutoAlimentarBiologico extends ProdutoAlimentar{
+import java.io.Serializable;
+
+public class ProdutoAlimentarBiologico extends ProdutoAlimentar implements Serializable{
 
     private final boolean biologico;
 
-    public ProdutoAlimentarBiologico(String nome, String codigo,String descricao, int quantidade, double precoUnitario,String taxa, String categoria, ArrayList<String> certificacoes){
-        super(nome,codigo,descricao,quantidade,precoUnitario,taxa,categoria,certificacoes);
+    public ProdutoAlimentarBiologico(String nome, String codigo,String descricao, int quantidade, double precoUnitario, String categoria, ArrayList<String> certificacoes){
+        super(nome,codigo,descricao,quantidade,precoUnitario,categoria,certificacoes);
         this.biologico = true;
-    }    
+    }
 
     public ProdutoAlimentarBiologico(){
         super();
@@ -20,7 +22,7 @@ public class ProdutoAlimentarBiologico extends ProdutoAlimentar{
     }
 
     private double aplicarDescontoBiologico(String localizacao){
-        return obterIVA(localizacao) + (double) (10 /100);
+        return obterIVA(localizacao) - (double) (10 /100);
     }
 
     public boolean isBiologico() {
