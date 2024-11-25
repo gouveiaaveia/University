@@ -7,6 +7,13 @@ public class POOFS {
         boolean continuar = true;
         Dados dados = new Dados();
         TesteInicializacao.inicializarDadosDeTeste(dados);
+        String caminhoFicheroTexto="../Ficheiros/ficheiro.text";
+        String caminhoFicheiroObjetos="../Ficheiros/ficheiroObjetos.text";
+        Ficheiros ficheiro=new Ficheiros(caminhoFicheroTexto);
+        
+        if(ficheiro.VerificaFicheiro()) 
+        else ficheiro.LerFicheiroTexto(dados);
+        dados.mostrarProdutos();
         do {
             System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
@@ -21,13 +28,25 @@ public class POOFS {
                 case 1:
                     System.out.println("\nCriar cliente: ");
                     Cliente cliente = new Cliente();
-                    cliente.criarCliente();
+                    cliente.criarCliente(dados.getClientes());
                     dados.adicionarCliente(cliente);
                     System.out.println("Cliente adicionado com sucesso!");
                     break;
 
                 case 2:
-                    dados.encontrarCliente();
+                    if(dados.getClientes().isEmpty())System.out.print("\nErro: Lista vazia");
+                    else{
+                        String nif;
+                        do {
+                            System.out.print("\nNIF do Cliente que deseja editar: ");
+                            nif = sc.nextLine();
+                        } while (!v.VerificaNif(nif, dados.getClientes()));
+
+                        Cliente clienteEditar = dados.encontrarCliente(nif);
+
+                        if(clienteEditar==null)System.out.print("Erro: Cliente não encontrado, tente de novo\n");
+                        else clienteEditar.EditaCliente(dados.getClientes());
+                    }
                     break;
 
                 case 3:
@@ -36,7 +55,6 @@ public class POOFS {
                     break;
 
                 case 4:
-                    sc.nextLine();
                     System.out.println("\nCriar fatura:");
                     System.out.print("NIF do cliente: ");
                     String nif = sc.nextLine();
@@ -46,12 +64,26 @@ public class POOFS {
                         break;
                     }
 
-                    boolean clienteEncontrado = false;  // Variável de controle
+                    boolean clienteEncontrado = false;// Variável de controle
+                    boolean existe;
+                    String n;
 
                     for(Cliente c : dados.getClientes()){
                         if(c.getNif().equals(nif)){
                             Fatura fatura = new Fatura(c);
-                            fatura.criarFatura();
+                            do{
+                                existe = false;
+                                System.out.print("Número da fatura: ");
+                                n = sc.nextLine();
+                                for(Fatura f: dados.getFaturas()){
+                                    if (n.equals(f.getNumeroFatura())){
+                                        System.out.println("\nFatura já existe!!");
+                                        existe = true;
+                                        break;
+                                    }
+                                }
+                            }while(existe);
+                            fatura.criarFatura(dados);
                             dados.adicionarFatura(fatura);
                             clienteEncontrado = true;  // Cliente foi encontrado
                             break;
@@ -65,12 +97,14 @@ public class POOFS {
 
                 case 5:
                     System.out.println("Editar fatura");
-                    dados.encontrarFatura();
+                    Fatura f=dados.encontrarFatura();
+                    if(f!=null) f.editarFatura(dados);
                     break;
 
                 case 6:
                     System.out.println("Lista de faturas:");
                     dados.mostrarListaFaturas();
+    
                     break;
 
                 case 7:
@@ -80,6 +114,7 @@ public class POOFS {
                 case 8:
                     System.out.println("Saindo...");
                     continuar = false; // Encerra o loop
+                    ficheiro.EscreverFicheiroObjetos(dados);
                     break;
 
                 default:
