@@ -1,9 +1,10 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Verificacoes {
+public class Verificacoes implements Serializable{
 
-    Scanner sc = new Scanner(System.in);
+    private transient Scanner sc = new Scanner(System.in);
 
     public char verificaSimNao(char c){
         while(c != 's' && c != 'n'){
@@ -14,7 +15,7 @@ public class Verificacoes {
     }
 
 
-    public String VerificaCodigo(){
+    public String verificaCodigo(){
         String codigo;
         int verificaCod;
         do{
@@ -57,7 +58,7 @@ public class Verificacoes {
         }
     }
 
-    public boolean VerificaNif(String nif, ArrayList<Cliente> listaCliente) {
+    public boolean verificaNif(String nif, ArrayList<Cliente> listaCliente) {
 
         if (nif == null || nif.length() != 9) {
             System.out.println("Erro: O NIF deve ter 9 dígitos.");
@@ -72,7 +73,7 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaLocalizacao(String localizacao) {
+    public boolean verificaLocalizacao(String localizacao) {
         if (localizacao == null){
             System.out.println("Erro:Localização incorreta.");
             return false;
@@ -84,7 +85,7 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaData(String data){
+    public boolean verificaData(String data){
         if (data == null || data.length() > 10) {
             return false;
         }
@@ -123,7 +124,7 @@ public class Verificacoes {
     }
 
 
-    public boolean VerificaCategoria(String categoria){
+    public boolean verificaCategoria(String categoria){
         if(!categoria.equalsIgnoreCase("Beleza") && !categoria.equalsIgnoreCase("BemEstar") && !categoria.equalsIgnoreCase("Bebes") && !categoria.equalsIgnoreCase("Animais") && !categoria.equalsIgnoreCase("Outros")){
             System.out.println("Erro: Categoria incorreta.");
             return false;
@@ -131,7 +132,7 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaString(String palavra, int tamanho) {
+    public boolean verificaString(String palavra, int tamanho) {
         if (palavra==null || palavra.matches("^[0-9]+$") || palavra.length()<=tamanho){
             System.out.println("Erro.");
             return false;

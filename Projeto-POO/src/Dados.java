@@ -1,12 +1,13 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Dados{
+public class Dados implements Serializable{
     private ArrayList<Cliente> clientes;
     private ArrayList<Fatura> faturas;
     private ArrayList<Produtos> produtos;
 
-    Scanner sc = new Scanner(System.in);
+    private transient Scanner sc = new Scanner(System.in);
 
     public Dados(){
         this.clientes = new ArrayList<>();
@@ -48,7 +49,7 @@ public class Dados{
             }
         }
         if(!encontrada){
-            System.out.println("Fatura não encontrada"); 
+            System.out.println("Fatura não encontrada");
         }
         return null;
     }
@@ -89,11 +90,11 @@ public class Dados{
     }
 
 
-    public void AdicionarPordutosDados(Produtos produto){
-         System.out.println("Produto adicionado");
+    public void adicionarPordutosDados(Produtos produto){
+        System.out.println("Produto adicionado");
         this.produtos.add(produto);
     }
-    public Produtos EncontrarProdutoDados(String codigo){
+    public Produtos encontrarProdutoDados(String codigo){
         for(Produtos p: this.produtos){
             if(codigo.equalsIgnoreCase(p.getCodigo())){
                 System.out.println("\nProduto já existe");
@@ -118,5 +119,13 @@ public class Dados{
 
     public void setFaturas(ArrayList<Fatura> faturas) {
         this.faturas = faturas;
+    }
+
+    public ArrayList<Produtos> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(ArrayList<Produtos> produtos) {
+        this.produtos = produtos;
     }
 }

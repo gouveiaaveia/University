@@ -1,37 +1,39 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class ProdutoAlimentar extends Produtos{
+public class ProdutoAlimentar extends Produtos implements Serializable{
 
     enum TipoTaxa {
         Reduzida,
         Intermedia,
         Normal;
     }
+
     protected TipoTaxa tipoTaxa;
     protected String categotia;
     protected ArrayList<String> certificacoes;
 
-    Scanner sc = new Scanner(System.in);
+    private transient Scanner sc = new Scanner(System.in);
     Verificacoes v = new Verificacoes();
 
-    public ProdutoAlimentar(String nome, String codigo,String descricao, int quantidade, double precoUnitario,String taxa, String categoria,ArrayList<String> certificacoes){
+    public ProdutoAlimentar(String nome, String codigo,String descricao, int quantidade, double precoUnitario, String categoria,ArrayList<String> certificacoes){
         super(nome,codigo,descricao,quantidade,precoUnitario);
-        this.tipoTaxa=CalaculaTaxaFicheiro(taxa);
         this.categotia=categoria;
         this.certificacoes=certificacoes;
+        determinarTipoTaxaIVA();
     }
 
     public ProdutoAlimentar() {
         super();
         this.categotia = "";
-        this.tipoTaxa=TipoTaxa.Normal;
+        this.tipoTaxa = TipoTaxa.Normal;
         certificacoes = new ArrayList<>();
     }
 
     public void criarEditarProduto(Dados dados){
-        String codigo=v.VerificaCodigo();
-        Produtos produtoEncontrar=dados.EncontrarProdutoDados(codigo);
+        String codigo=v.verificaCodigo();
+        Produtos produtoEncontrar=dados.encontrarProdutoDados(codigo);
 
         if(produtoEncontrar==null){
             super.criarProdutosComum(false, codigo); //nao existe por isso mandamos um false
@@ -107,16 +109,9 @@ public class ProdutoAlimentar extends Produtos{
             tipoTaxa = TipoTaxa.Reduzida;
         }else if(getCategotia().equals("congelados") || getCategotia().equals("enlatados") || getCategotia().equals("vinho")){
             tipoTaxa = TipoTaxa.Intermedia;
-
         }else{
             tipoTaxa = TipoTaxa.Normal;
         }
-    }
-
-    protected TipoTaxa CalaculaTaxaFicheiro(String taxa){
-        if(taxa.equals("Reduzida")) return TipoTaxa.Reduzida;
-        else if(taxa.equals("Intermedia")) return TipoTaxa.Intermedia;
-        else return TipoTaxa.Normal;
     }
 
     protected double extraCategoriaVinho(String localizacao){
