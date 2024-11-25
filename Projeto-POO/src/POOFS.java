@@ -7,6 +7,13 @@ public class POOFS {
         boolean continuar = true;
         Dados dados = new Dados();
         TesteInicializacao.inicializarDadosDeTeste(dados);
+        String caminhoFicheroTexto="../Ficheiros/ficheiro.text";
+        String caminhoFicheiroObjetos="../Ficheiros/ficheiroObjetos.text";
+        Ficheiros ficheiro=new Ficheiros(caminhoFicheroTexto);
+        
+        if(ficheiro.VerificaFicheiro()) 
+        else ficheiro.LerFicheiroTexto(dados);
+        dados.mostrarProdutos();
         do {
             System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
@@ -76,8 +83,7 @@ public class POOFS {
                                     }
                                 }
                             }while(existe);
-
-                            fatura.criarFatura(n);
+                            fatura.criarFatura(dados);
                             dados.adicionarFatura(fatura);
                             clienteEncontrado = true;  // Cliente foi encontrado
                             break;
@@ -91,12 +97,14 @@ public class POOFS {
 
                 case 5:
                     System.out.println("Editar fatura");
-                    dados.encontrarFatura();
+                    Fatura f=dados.encontrarFatura();
+                    if(f!=null) f.editarFatura(dados);
                     break;
 
                 case 6:
                     System.out.println("Lista de faturas:");
                     dados.mostrarListaFaturas();
+    
                     break;
 
                 case 7:
@@ -106,6 +114,7 @@ public class POOFS {
                 case 8:
                     System.out.println("Saindo...");
                     continuar = false; // Encerra o loop
+                    ficheiro.EscreverFicheiroObjetos(dados);
                     break;
 
                 default:

@@ -6,13 +6,18 @@ public class ProdutoFarmacia extends Produtos{
     Scanner scanner = new Scanner(System.in);
     Verificacoes verificacoes= new Verificacoes();
 
+    public ProdutoFarmacia(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String categoria){
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.categoria=categoria;
+    }
+
     public ProdutoFarmacia(){
         super();
         this.categoria="";
     }
 
-    public void CriarNaopPrescrito(){
-        super.criarEditarProduto();
+    public void CriarNaoPrescrito(boolean verifica, String codigo){
+        super.criarProdutosComum(verifica,codigo);
         setCategoria(Categoria());
     }
 

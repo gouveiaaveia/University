@@ -6,14 +6,18 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
     Scanner sc = new Scanner(System.in);
     Verificacoes verificacoes= new Verificacoes();
 
+    public ProdutoFarmaciaPrescrito(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String medico) {
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.nomeMedico =medico;
+    }
 
     public ProdutoFarmaciaPrescrito() {
         super();
         this.nomeMedico = "";
     }
 
-    public void CriarPrescrito(){
-        super.criarEditarProduto();
+    public void CriarPrescrito(boolean verifica, String codigo){
+        super.criarProdutosComum(verifica,codigo);
         setNomeMedico(Medico());
 
     }

@@ -1,7 +1,9 @@
 import java.util.Random;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public abstract class Produtos{
+
+public abstract class Produtos  implements Serializable{
     protected String codigo;
     protected String nome;
     protected String descricao;
@@ -11,21 +13,38 @@ public abstract class Produtos{
     Scanner sc = new Scanner(System.in);
     Verificacoes v = new Verificacoes();
 
+    public Produtos(String codigo, String nome, String descricao, int quantidade,double precoUnitario){
+       this.codigo = codigo;
+       this.nome = nome;
+       this.descricao = descricao;
+       this.quantidade = quantidade;
+       this.precoUnitario = precoUnitario;
+    }
+
     public Produtos(){
        this.codigo = "";
        this.nome = "";
        this.descricao = "";
        this.quantidade = 0;
-       this.precoUnitario = 0;
+       this.precoUnitario = 0.0;
     }
 
-    public void criarEditarProduto(){
-        System.out.print("Código do produto: ");
-        setCodigo(sc.nextLine());
-        System.out.print("Nome do produto: ");
-        setNome(sc.nextLine());
-        System.out.print("Descrição do produto: ");
-        setDescricao(sc.nextLine());
+    public void criarProdutosComum(boolean verifica, String codigo){
+
+        if(!verifica){
+            setCodigo(codigo); //peço sempre o codigo anteriormente para verificar se ja existe o produto na lista dos dados
+            System.out.print("Nome do produto: ");
+            setNome(sc.nextLine());
+            System.out.print("Descrição do produto: ");
+            setDescricao(sc.nextLine());
+            double valor2;
+            do{
+                System.out.print("Preço unitário do produto: ");
+                String q = sc.nextLine();
+                valor2 = v.stringDouble(q);
+            }while(valor2 == 0);
+            setPrecoUnitario(valor2);
+        }
 
         int valor;
         do{
@@ -35,13 +54,6 @@ public abstract class Produtos{
         }while(valor == 0);
         setQuantidade(valor);
 
-        double valor2;
-        do{
-            System.out.print("Preço unitário do produto: ");
-            String q = sc.nextLine();
-            valor2 = v.stringDouble(q);
-        }while(valor2 == 0);
-        setPrecoUnitario(valor2);
     }
 
     public abstract double valorTotalComIVA(String localizacao);
