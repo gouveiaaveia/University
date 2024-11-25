@@ -6,19 +6,23 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
     Scanner sc = new Scanner(System.in);
     Verificacoes verificacoes= new Verificacoes();
 
+    public ProdutoFarmaciaPrescrito(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String medico) {
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.nomeMedico =medico;
+    }
 
     public ProdutoFarmaciaPrescrito() {
         super();
         this.nomeMedico = "";
     }
 
-    public void CriarPrescrito(){
-        super.criarProduto();
+    public void CriarPrescrito(boolean verifica, String codigo){
+        super.criarProdutosComum(verifica,codigo);
         setNomeMedico(Medico());
-        
+
     }
 
-    private String Medico(){ 
+    private String Medico(){
         String medico;
         do{
             System.out.print("\nNome médico:");
@@ -44,7 +48,7 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
     public double valorComIVA(String localizacao){ //iva por cada um produtor
         double IVA=this.precoUnitario*obterIVA(localizacao);
         return this.precoUnitario+IVA;
-        
+
     }
 
     public double valorTotalSemIVA(){
@@ -63,7 +67,7 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
         this.nomeMedico = nomeMedico;
     }
 
-   
+
 
 
 }

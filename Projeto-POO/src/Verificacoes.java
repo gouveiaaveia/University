@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Verificacoes {
 
@@ -32,6 +33,17 @@ public class Verificacoes {
         return valor;
     }
 
+    public String VerificaCodigo(){
+        String codigo;
+        int verificaCod;
+        do{
+            System.out.print("Código do produto: ");
+            codigo= sc.nextLine();
+            verificaCod = stringInteger(codigo);
+        }while(verificaCod == 0);
+        return codigo;
+    }
+
     public int stringInteger(String op){
         int valor = 0;
         try{
@@ -54,7 +66,7 @@ public class Verificacoes {
         }
     }
 
-    public int opcaoMenu(String op){  //nao precisa estar aqui
+    public int opcaoMenu(String op){
         int opcao = 0;
         try{
             opcao = Integer.parseInt(op);
@@ -64,9 +76,8 @@ public class Verificacoes {
         }
     }
 
-
     public boolean VerificaNif(String nif, ArrayList<Cliente> listaCliente) {
-        
+
         if (nif == null || nif.length() != 9) {
             System.out.println("Erro: O NIF deve ter 9 dígitos.");
             return false;
@@ -75,13 +86,6 @@ public class Verificacoes {
         if (!nif.matches("^[0-9]+$")) {
             System.out.println("Erro: O NIF deve ter apenas números.");
             return false;
-        }
-
-        for (Cliente cliente : listaCliente) {
-            if (nif.equals(cliente.getNif())) {
-                System.out.println("Erro: Este NIF não está disponível.");
-                return false;
-            }
         }
 
         return true;
@@ -103,24 +107,24 @@ public class Verificacoes {
         if (data == null || data.length() > 10) {
             return false;
         }
-        
+
         String dia = data.substring(0, 2);
         String mes = data.substring(3, 5);
         String ano = data.substring(6, 10);
 
         if(!dia.matches("^[0-9]+$") && !mes.matches("^[0-9]+$") && !ano.matches("^[0-9]+$")) return false;
-        
+
         int diaInt = 0, mesInt = 0, anoInt = 0;
         diaInt =Integer.parseInt(dia);
         mesInt = Integer.parseInt(mes);
         anoInt = Integer.parseInt(ano);
-        
-        
+
+
         if (mesInt < 1 || mesInt > 12) return false;
-        
+
 
         if(anoInt<1500) return false;
-        
+
         if(anoInt%4==0){
             if (mesInt==2) {
                 if(diaInt<1 || diaInt>29) return false;
@@ -145,4 +149,13 @@ public class Verificacoes {
         }
         return true;
     }
+
+    public boolean VerificaString(String palavra, int tamanho) {
+        if (palavra==null || palavra.matches("^[0-9]+$") || palavra.length()<=tamanho){
+            System.out.println("Erro.");
+            return false;
+        }
+        return true;
+    }
 }
+

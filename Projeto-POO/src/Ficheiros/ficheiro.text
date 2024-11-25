@@ -1,0 +1,16 @@
+Clientes
+Ze/123123123/madeira
+Manel/123321123/portugal continental
+Joao/000000011/açores
+-
+Produtos
+alimentar/001/maçã/maçã preta/10/100.0/Reduzida//ISO22000,GMP
+biologico/011/pera/pera azul/5/90.0/Intermedia/congelados/
+farmacia/021/spidifen/para a dor de cabeça/20/5.0/Bebes/
+prescrito/061/testosterona/para ficar grande/2/500.0/Andre/
+-
+Fatura
+001/123123123/02-02-2024;001/011
+011/123123123/03-09-2020;021/001
+111/123321123/08-08-2008;021/001/011
+112/000000011/05-05-2024;001/011/061/021

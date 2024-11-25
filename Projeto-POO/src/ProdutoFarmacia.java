@@ -1,24 +1,29 @@
 import java.util.Scanner;
 
-public class ProdutoFarmaciaNaoPrescrito extends Produtos{
+public class ProdutoFarmacia extends Produtos{
 
     private String categoria;
     Scanner scanner = new Scanner(System.in);
     Verificacoes verificacoes= new Verificacoes();
 
-    public ProdutoFarmaciaNaoPrescrito(){
+    public ProdutoFarmacia(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String categoria){
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.categoria=categoria;
+    }
+
+    public ProdutoFarmacia(){
         super();
         this.categoria="";
     }
 
-    public void CriarNaopPrescrito(){
-        super.criarProduto();
-        setCategoria(Categoria());    
+    public void CriarNaoPrescrito(boolean verifica, String codigo){
+        super.criarProdutosComum(verifica,codigo);
+        setCategoria(Categoria());
     }
 
-    private String Categoria(){  
+    private String Categoria(){
         String categoria;
-        
+
         do{
             System.out.print("\nCategoria (Beleza,BemEstar,Bebes,Animais,Outros):");
             categoria=scanner.nextLine();
@@ -46,14 +51,14 @@ public class ProdutoFarmaciaNaoPrescrito extends Produtos{
         TabelaIVA tabela= new TabelaIVA(0,0);
         TabelaIVA tabelaValores= tabela.getTabelaPorLocalizacao(localizacao, "farmacia");
 
-        if(this.categoria.equalsIgnoreCase("animais")) return((tabelaValores.getTaxaNormal()*100)-1/100); 
+        if(this.categoria.equalsIgnoreCase("animais")) return((tabelaValores.getTaxaNormal()*100)-1/100);
 
         return tabelaValores.getTaxaNormal();
     }
     @Override
     public double valorComIVA(String localizacao){ //iva por cada um produtor
         return this.precoUnitario*obterIVA(localizacao);
-        
+
     }
     @Override
     public double valorTotalSemIVA(){

@@ -1,6 +1,12 @@
+import java.util.ArrayList;
 public class ProdutoAlimentarBiologico extends ProdutoAlimentar{
 
     private final boolean biologico;
+
+    public ProdutoAlimentarBiologico(String nome, String codigo,String descricao, int quantidade, double precoUnitario,String taxa, String categoria, ArrayList<String> certificacoes){
+        super(nome,codigo,descricao,quantidade,precoUnitario,taxa,categoria,certificacoes);
+        this.biologico = true;
+    }    
 
     public ProdutoAlimentarBiologico(){
         super();
