@@ -14,6 +14,17 @@ public class Verificacoes {
     }
 
 
+    public String VerificaCodigo(){
+        String codigo;
+        int verificaCod;
+        do{
+            System.out.print("Código do produto: ");
+            codigo= sc.nextLine();
+            verificaCod = stringInteger(codigo);
+        }while(verificaCod == 0);
+        return codigo;
+    }
+
     public int stringInteger(String op){
         int valor = 0;
         try{

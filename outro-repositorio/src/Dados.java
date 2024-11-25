@@ -4,12 +4,14 @@ import java.util.Scanner;
 public class Dados{
     private ArrayList<Cliente> clientes;
     private ArrayList<Fatura> faturas;
+    private ArrayList<Produtos> produtos;
 
     Scanner sc = new Scanner(System.in);
 
     public Dados(){
         this.clientes = new ArrayList<>();
         this.faturas = new ArrayList<>();
+        this.produtos= new ArrayList<>();
     }
 
     public void adicionarCliente(Cliente cliente){
@@ -35,19 +37,20 @@ public class Dados{
     }
 
 
-    public void encontrarFatura(){
+    public Fatura encontrarFatura(){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
         boolean encontrada = false;
         for(Fatura f: faturas){
             if(f.getNumeroFatura().equals(numeroFatura)){
-                f.editarFatura();
                 encontrada = true;
+                return f;
             }
         }
         if(!encontrada){
-            System.out.println("Fatura não encontrada");
+            System.out.println("Fatura não encontrada"); 
         }
+        return null;
     }
 
     public void mostrarFatura(){
@@ -66,6 +69,13 @@ public class Dados{
         }
     }
 
+    public void mostrarProdutos(){
+        if(produtos.isEmpty())System.out.println("vazio");
+        for(Produtos p:produtos){
+            System.out.println(p.getNome());
+        }
+    }
+
     public void mostrarListaFaturas(){
         if(getFaturas().isEmpty()){
             System.out.println("Sem nenhuma fatura registada no sistema!");
@@ -76,6 +86,22 @@ public class Dados{
             System.out.println(f + "Número de produtos: " + f.getListaProdutos().size() + "\nValor total sem IVA: " +
                     f.getValorSemIVA() + "\nValor total com IVA: " + f.getValorComIVA());
         }
+    }
+
+
+    public void AdicionarPordutosDados(Produtos produto){
+         System.out.println("Produto adicionado");
+        this.produtos.add(produto);
+    }
+    public Produtos EncontrarProdutoDados(String codigo){
+        for(Produtos p: this.produtos){
+            if(codigo.equalsIgnoreCase(p.getCodigo())){
+                System.out.println("\nProduto já existe");
+                return p;
+            }
+        }
+        System.out.println("\nProduto não existe");
+        return null;
     }
 
     public ArrayList<Cliente> getClientes() {
