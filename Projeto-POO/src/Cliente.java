@@ -53,9 +53,9 @@ public class Cliente implements Serializable{
 
 
     public void EditaCliente(ArrayList<Cliente> listaCliente, Scanner sc, Verificacoes v){
-        System.out.print("\nEditar nome?");
-        String resposta=sc.nextLine();
-        if(resposta.equalsIgnoreCase("sim")){
+        System.out.print("\nEditar nome? ");
+        char resposta = v.verificaSimNao(sc);
+        if(resposta == 's'){
             String nome;
             do{
                 System.out.print("\nNome novo:");
@@ -64,10 +64,11 @@ public class Cliente implements Serializable{
             setNome(nome);
         }
 
-        System.out.print("\nEditar numero de identificação fiscal?");
-        String resposta1=sc.nextLine();
-        boolean encontrado = false;
-        if(resposta1.equalsIgnoreCase("sim")){
+        System.out.print("\nEditar numero de identificação fiscal? ");
+        char resposta1 = v.verificaSimNao(sc);
+        boolean disponivel = true;
+
+        if(resposta1 == 's'){
             String nif;
             do{
                 System.out.println("\nNumero de identificação fiscal novo:");
@@ -75,16 +76,16 @@ public class Cliente implements Serializable{
                 for (Cliente cliente : listaCliente) {
                     if (nif.equals(cliente.getNif())) {
                         System.out.println("Erro: Este NIF não está disponível.");
-                        encontrado = true;
+                        disponivel = false;
                     }
                 }
-            } while(!v.verificaNif(nif,listaCliente) && !encontrado);
+            } while(!v.verificaNif(nif,listaCliente) && !disponivel);
             setNif(nif);
         }
 
-        System.out.print("\nEditar localização?");
-        String resposta2 = sc.nextLine();
-        if(resposta2.equalsIgnoreCase("sim")){
+        System.out.print("\nEditar localização? ");
+        char resposta2 = v.verificaSimNao(sc);
+        if(resposta2 == 's'){
             String localizacao;
             do{
                 System.out.print("\nLocalização nova:");
