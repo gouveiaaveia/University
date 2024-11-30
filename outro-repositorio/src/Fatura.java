@@ -13,9 +13,6 @@ public class Fatura  implements Serializable{
     private double valorComIVA;
     private double valorSemIVA;
 
-    private transient  Scanner sc = new Scanner(System.in);
-    private transient Verificacoes v =  new Verificacoes();
-
     public Fatura(String numeroFatura, Cliente cliente, String data, ArrayList<Produtos> produtos){
         this.numeroFatura=numeroFatura;
         this.cliente=cliente;
@@ -35,89 +32,85 @@ public class Fatura  implements Serializable{
         this.valorSemIVA=0.0;
     }
 
-    public void criarFatura(Dados dados){
+    public void criarFatura(Dados dados, Scanner sc, Verificacoes v){
         System.out.print("Número da fatura: ");
         setNumeroFatura(sc.nextLine());
-        System.out.print("Data da fatura (dd-mm-aaaa): ");
 
+        String data;
         do{
-            String data = sc.nextLine();
+            System.out.print("Data da fatura (dd-mm-aaaa): ");
+            data = sc.nextLine();
         }while(!v.verificaData(data));
 
         setData(data);
 
-        System.out.print("Pretende adicionar algum produto? (s/n): ");
+        System.out.print("Pretende adicionar algum produto? ");
         char opcao2;
         do{
-            opcao2 = sc.nextLine().charAt(0);
-            v.verificaSimNao(opcao2);
+            opcao2 = v.verificaSimNao(sc);
+
             if(opcao2=='s'){
-                criarProduto(dados);
+                criarProduto(dados, sc, v, false, "");
             }else if(opcao2 == 'n'){
                 break;
             }
             sc.nextLine();
-            System.out.print("\nDeseja adicionar mais algum produto? (s/n): ");
+            System.out.print("\nDeseja adicionar mais algum produto? ");
         }while(opcao2 == 's');
     }
 
-    public void editarFatura(Dados dados){
-        System.out.print("\nDeseja alterar o número da fatura? (s/n): ");
-        char opcao = sc.nextLine().charAt(0);
-        v.verificaSimNao(opcao);
+    public void editarFatura(Dados dados, Scanner sc, Verificacoes v){
+        System.out.print("\nDeseja alterar o número da fatura? ");
+        char opcao = v.verificaSimNao(sc);
         if(opcao== 's'){
             System.out.print("\nNúmero da fatura: ");
             setNumeroFatura(sc.nextLine());
         }
-        System.out.print("\nPretende alterar os produtos da fatura? (s/n): ");
-        char opcao3 = sc.nextLine().charAt(0);
-        v.verificaSimNao(opcao3);
+        System.out.print("\nPretende alterar os produtos da fatura? ");
+        char opcao3 =  v.verificaSimNao(sc);
 
         if(opcao3== 's'){
-            System.out.print("1- Editar quantidade do produto\n2- Remover produto\n3- Adicionar produto\n");
+            System.out.print("1 - Editar quantidade do produto\n2 - Remover produto\n3 - Adicionar produto\n");
             int opcao2;
             do{
                 System.out.print("Opção: ");
                 String valor = sc.nextLine();
                 opcao2 = v.stringInteger(valor);
-            }while(opcao2 != 1 && opcao2 != 2 && opcao !=3);
-            sc.nextLine();
+            }while(opcao2 != 1 && opcao2 != 2 && opcao2 !=3);
 
             if(opcao2 == 1){
-                editarQuantidadeProduto();
+                editarQuantidadeProduto(sc, v);
             }else if(opcao2==2){
-                removerProduto();
-            }
-            else{ //adicionar produto à fatura
-                adicionarProdutoFatura(dados);
+                removerProduto(sc);
+            }else {
+                adicionarProdutoFatura(dados, sc, v);
             }
         }
     }
 
-    private void adicionarProdutoFatura(Dados dados){
+    private void adicionarProdutoFatura(Dados dados, Scanner sc, Verificacoes v){
         String valor;
-        boolean verificaCodigo=true;
+        boolean verificaCodigo = true;
         int opcao;
         do{
             System.out.print("Código do produto: ");
             valor= sc.nextLine();
             opcao = v.stringInteger(valor);
-        }while(valor.length()<12 || opcao==0);
+        }while(opcao==0);
 
         for(Produtos p: listaProdutos){
-            if(p.getCodigo().equals(valor)) System.out.println("\nO produto já existe na fatura, altere a quantidade.");
-
-            else{
+            if(p.getCodigo().equals(valor)){
+                System.out.println("\nO produto já existe na fatura, altere a quantidade.\n");
+                editarQuantidadeProduto(sc, v);
+            }else{
                 verificaCodigo=false;
             }
         }
 
-        if(!verificaCodigo) criarProduto(dados);
+        if(!verificaCodigo) criarProduto(dados, sc, v, true, valor);
     }
 
-
-
-    private void editarQuantidadeProduto(){  //só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
+    private void editarQuantidadeProduto(Scanner sc, Verificacoes v){  //só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
         System.out.print("Código do produto a editar: ");
         String codigo = sc.nextLine();
         boolean encontrado = false;
@@ -130,7 +123,7 @@ public class Fatura  implements Serializable{
                     q = sc.nextLine();
                     valor = v.stringInteger(q);
                 }while(valor == 0);
-                p.setQuantidade(Integer.parseInt(q));
+                p.setQuantidade(valor);
                 encontrado = true;
             }
         }
@@ -139,7 +132,7 @@ public class Fatura  implements Serializable{
         }
     }
 
-    private void removerProduto(){
+    private void removerProduto(Scanner sc){
         System.out.print("Código do produto que deseja remover: ");
         String codigo = sc.nextLine();
         boolean removido = false;
@@ -166,15 +159,20 @@ public class Fatura  implements Serializable{
         this.listaProdutos.add(produto);
     }
 
-    private void criarProduto(Dados dados){
-        String codigo=v.verificaCodigo();
+    private void criarProduto(Dados dados, Scanner sc, Verificacoes v, boolean codigoDado, String cod){
+        String codigo = cod;
+
+        if(!codigoDado){
+            codigo = v.verificaCodigo(sc);
+        }
+
         boolean verifica;
-        Produtos produtoEncontrar=dados.encontrarProdutoDados(codigo);
+        Produtos produtoEncontrar = dados.encontrarProdutoDados(codigo);
         //verifica se o produto ja esta criado na lista dos dados
 
         if(produtoEncontrar==null){
             verifica=false;
-            System.out.print("Tipo de produto a adicionar:\n1- Produto alimentar\n2- Produto Farmaceutico\nOpção:");
+            System.out.print("Tipo de produto a adicionar:\n1- Produto alimentar\n2- Produto Farmaceutico\n");
             int opcao;
             do{
                 System.out.print("Opção: ");
@@ -186,18 +184,19 @@ public class Fatura  implements Serializable{
 
             switch(opcao){
                 case 1:
-                    System.out.print("Produto biológico? (s/n): ");
-                    char opcao1 = sc.next().charAt(0);
-                    v.verificaSimNao(opcao1);
+                    System.out.print("Produto biológico? ");
+
+                    char opcao1 = v.verificaSimNao(sc);
+
                     if(opcao1== 's'){
                         ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
-                        p.criarEditarProduto(dados);
+                        p.criarEditarProduto(dados, sc, v, codigo);
                         adicionarProduto(p); //adicionar à lista faturas
                         dados.adicionarPordutosDados(p);
 
                     }else{
                         ProdutoAlimentar p = new ProdutoAlimentar();
-                        p.criarEditarProduto(dados);
+                        p.criarEditarProduto(dados, sc, v, codigo);
                         adicionarProduto(p);
                         dados.adicionarPordutosDados(p);
                     }
@@ -209,13 +208,13 @@ public class Fatura  implements Serializable{
                     String prescricoo= sc.nextLine();
                     if(prescricoo.equalsIgnoreCase("sim")){
                         ProdutoFarmaciaPrescrito farmaciaP= new ProdutoFarmaciaPrescrito();
-                        farmaciaP.CriarPrescrito(verifica,codigo);
+                        farmaciaP.CriarPrescrito(verifica,codigo, sc, v);
                         adicionarProduto(farmaciaP);
                         dados.adicionarPordutosDados(farmaciaP);
                     }
                     else{
                         ProdutoFarmacia farmacia= new ProdutoFarmacia();
-                        farmacia.criarNaoPrescrito(verifica ,codigo);
+                        farmacia.criarNaoPrescrito(verifica ,codigo, sc, v);
                         adicionarProduto(farmacia);
                         dados.adicionarPordutosDados(farmacia);
                     }
@@ -225,15 +224,12 @@ public class Fatura  implements Serializable{
         }
 
         else { //se ja existir eu só vou pedir a quantidade do produto
-            //produtoEncontrar vai estar à apontar para a mesma class do ooutro que ja existe
-            verifica=true;
-            boolean verificaListaProduto=false;
-            produtoEncontrar.criarProdutosComum(verifica,codigo);
+            //produtoEncontrar vai estar à apontar para a mesma class do outro que ja existe
+            verifica = true;
+            boolean verificaListaProduto = false;
+            produtoEncontrar.criarProdutosComum(verifica,codigo, sc, v);
         }
-
-
     }
-
 
     public void calcularValoresIVA(){
         setValorComIVA(0.0);
@@ -253,7 +249,7 @@ public class Fatura  implements Serializable{
         System.out.println("\nInformações da fatura:\nNúmero da fatura: " + this.numeroFatura
                 + "\nData da fatura (dd-mm-aaaa): " + this.data + " " +
                 getCliente().toString()
-                + "\nProdutos:");
+                + "\n====================\nProdutos\n====================\n");
 
         String localizacao = getCliente().getLocalizacao();
 
@@ -273,7 +269,7 @@ public class Fatura  implements Serializable{
         }
 
         // Exibe informações finais da fatura apenas uma vez
-        System.out.println("Informação final da fatura:" +
+        System.out.println("\n====================\nInformação final da fatura\n====================\n" +
                 "\n Valor total da fatura sem IVA: " + totalSemIVA +
                 "\n Valor total do IVA: " + valorTotalDoIVA +
                 "\n Valor total da fatura com IVA: " + totalComIVA);

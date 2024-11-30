@@ -7,8 +7,6 @@ public class Dados implements Serializable{
     private ArrayList<Fatura> faturas;
     private ArrayList<Produtos> produtos;
 
-    private transient Scanner sc = new Scanner(System.in);
-
     public Dados(){
         this.clientes = new ArrayList<>();
         this.faturas = new ArrayList<>();
@@ -38,7 +36,7 @@ public class Dados implements Serializable{
     }
 
 
-    public Fatura encontrarFatura(){
+    public Fatura encontrarFatura(Scanner sc){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
         boolean encontrada = false;
@@ -54,7 +52,7 @@ public class Dados implements Serializable{
         return null;
     }
 
-    public void mostrarFatura(){
+    public void mostrarFatura(Scanner sc){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
         boolean encontrada = false;
@@ -94,6 +92,7 @@ public class Dados implements Serializable{
         System.out.println("Produto adicionado");
         this.produtos.add(produto);
     }
+
     public Produtos encontrarProdutoDados(String codigo){
         for(Produtos p: this.produtos){
             if(codigo.equalsIgnoreCase(p.getCodigo())){

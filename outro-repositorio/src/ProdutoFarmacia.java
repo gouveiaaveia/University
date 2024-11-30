@@ -5,9 +5,6 @@ public class ProdutoFarmacia extends Produtos implements Serializable{
 
     private String categoria;
 
-    private transient Scanner scanner = new Scanner(System.in);
-    Verificacoes verificacoes= new Verificacoes();
-
     public ProdutoFarmacia(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String categoria){
         super(codigo,nome,descricao,quantidade,precoUnitario);
         this.categoria=categoria;
@@ -18,18 +15,18 @@ public class ProdutoFarmacia extends Produtos implements Serializable{
         this.categoria="";
     }
 
-    public void criarNaoPrescrito(boolean verifica, String codigo){
-        super.criarProdutosComum(verifica,codigo);
-        setCategoria(Categoria());
+    public void criarNaoPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+        super.criarProdutosComum(verifica,codigo, sc, v);
+        setCategoria(Categoria(sc, v));
     }
 
-    private String Categoria(){
+    private String Categoria(Scanner sc, Verificacoes v){
         String categoria;
 
         do{
             System.out.print("\nCategoria (Beleza,BemEstar,Bebes,Animais,Outros):");
-            categoria=scanner.nextLine();
-        }while(!verificacoes.verificaCategoria(categoria));
+            categoria=sc.nextLine();
+        }while(!v.verificaCategoria(categoria));
         return categoria;
     }
 
