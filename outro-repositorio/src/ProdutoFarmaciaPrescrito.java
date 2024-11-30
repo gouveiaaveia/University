@@ -1,29 +1,32 @@
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class ProdutoFarmaciaPrescrito extends Produtos{
+public class ProdutoFarmaciaPrescrito extends Produtos implements Serializable{
 
     private String nomeMedico;
-    Scanner sc = new Scanner(System.in);
-    Verificacoes verificacoes= new Verificacoes();
 
+    public ProdutoFarmaciaPrescrito(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String medico) {
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.nomeMedico =medico;
+    }
 
     public ProdutoFarmaciaPrescrito() {
         super();
         this.nomeMedico = "";
     }
 
-    public void CriarPrescrito(){
-        super.criarEditarProduto();
-        setNomeMedico(Medico());
+    public void CriarPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+        super.criarProdutosComum(verifica,codigo, sc, v);
+        setNomeMedico(Medico(sc, v));
 
     }
 
-    private String Medico(){
+    private String Medico(Scanner sc, Verificacoes verificacoes){
         String medico;
         do{
             System.out.print("\nNome médico:");
             medico=sc.nextLine();
-        }while(!verificacoes.VerificaString(medico,2));
+        }while(!verificacoes.verificaString(medico,2));
         return medico;
     }
 
@@ -31,7 +34,7 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
         String str="";
         str+=super.toString();
         str+="Produto Farmacia Prescrito\n";
-        str+="Médico: "+this.nomeMedico+"\n";
+        str+="Médico: "+ getNomeMedico() +"\n";
         return str;
     }
 
@@ -41,18 +44,20 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
         return tabelaValores.getPrescricao();
     }
 
+    @Override
     public double valorComIVA(String localizacao){ //iva por cada um produtor
-        double IVA=this.precoUnitario*obterIVA(localizacao);
-        return this.precoUnitario+IVA;
+        return getPrecoUnitario() + (getPrecoUnitario() * obterIVA(localizacao));
 
     }
 
+    @Override
     public double valorTotalSemIVA(){
-        return (double)this.quantidade*this.precoUnitario;
+        return (double) getQuantidade() * getPrecoUnitario();
     }
 
+    @Override
     public double valorTotalComIVA(String localizacao){
-        return  (double)this.quantidade*valorComIVA(localizacao);
+        return getQuantidade() * valorComIVA(localizacao);
     }
 
     public String getNomeMedico() {
@@ -62,8 +67,4 @@ public class ProdutoFarmaciaPrescrito extends Produtos{
     public void setNomeMedico(String nomeMedico) {
         this.nomeMedico = nomeMedico;
     }
-
-
-
-
 }

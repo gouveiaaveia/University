@@ -1,36 +1,35 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.io.Serializable;
 
-public class Verificacoes {
+public class Verificacoes implements Serializable{
 
-    Scanner sc = new Scanner(System.in);
+    public char verificaSimNao(Scanner sc) {
+        char c = '\0';
 
-    public char verificaSimNao(char c){
-        while(c != 's' && c != 'n'){
-            System.out.print("Caracter Inválido!!\nOpção: ");
-            c = sc.next().charAt(0);
+        while (c != 's' && c != 'n') {
+            System.out.print("Opção (s/n): ");
+            String opcao = sc.nextLine().trim().toLowerCase();
+
+            if (opcao.length() == 1 && (opcao.charAt(0) == 's' || opcao.charAt(0) == 'n')) {
+                c = opcao.charAt(0);
+            } else {
+                System.out.println("Entrada inválida! Digite 's' ou 'n'.");
+            }
         }
+
         return c;
     }
 
-    public int numeroCertificacoes(){
-        boolean entradaValida = false;
-        int valor = 0;
-        String num;
-
-        while(!entradaValida){
-
-            System.out.print("Quantas certificações pertende adicionar (0-4): ");
-            num = sc.nextLine();
-
-            try{
-                valor = Integer.parseInt(num);
-                entradaValida = true;
-            } catch (NumberFormatException e) {
-                System.out.print("Inválido!! Introduza um número entre 1 e 4\nOpção: ");
-            }
-        }
-        return valor;
+    public String verificaCodigo(Scanner sc){
+        String codigo;
+        int verificaCod;
+        do{
+            System.out.print("Código do produto: ");
+            codigo= sc.nextLine();
+            verificaCod = stringInteger(codigo);
+        }while(verificaCod == 0);
+        return codigo;
     }
 
     public int stringInteger(String op){
@@ -65,7 +64,7 @@ public class Verificacoes {
         }
     }
 
-    public boolean VerificaNif(String nif, ArrayList<Cliente> listaCliente) {
+    public boolean verificaNif(String nif, ArrayList<Cliente> listaCliente) {
 
         if (nif == null || nif.length() != 9) {
             System.out.println("Erro: O NIF deve ter 9 dígitos.");
@@ -80,7 +79,7 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaLocalizacao(String localizacao) {
+    public boolean verificaLocalizacao(String localizacao) {
         if (localizacao == null){
             System.out.println("Erro:Localização incorreta.");
             return false;
@@ -92,46 +91,67 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaData(String data){
-        if (data == null || data.length() > 10) {
+    public boolean verificaData(String data) {
+        // Verificar se a data é nula ou tem comprimento errado
+        if (data == null) {
+            System.out.println("Erro: Formato da data incorreto.");
             return false;
         }
 
-        String dia = data.substring(0, 2);
-        String mes = data.substring(3, 5);
-        String ano = data.substring(6, 10);
+        String[] valores = data.split("/");
 
-        if(!dia.matches("^[0-9]+$") && !mes.matches("^[0-9]+$") && !ano.matches("^[0-9]+$")) return false;
-
-        int diaInt = 0, mesInt = 0, anoInt = 0;
-        diaInt =Integer.parseInt(dia);
-        mesInt = Integer.parseInt(mes);
-        anoInt = Integer.parseInt(ano);
-
-
-        if (mesInt < 1 || mesInt > 12) return false;
-
-
-        if(anoInt<1500) return false;
-
-        if(anoInt%4==0){
-            if (mesInt==2) {
-                if(diaInt<1 || diaInt>29) return false;
-            }
+        if (valores.length != 3) {
+            System.out.println("Erro: Data não contém três partes.");
+            return false;
         }
 
-        if(mesInt==6||mesInt==4 || mesInt==9 || mesInt==11){
-            if(diaInt<1 || diaInt>30)return false;
+        if (!valores[0].matches("\\d{2}") || !valores[1].matches("\\d{2}") || !valores[2].matches("\\d{4}")) {
+            System.out.println("Erro: Partes da data não estão no formato correto.");
+            System.out.println("Dia: " + valores[0] + ", Mês: " + valores[1] + ", Ano: " + valores[2]);
+            return false;
         }
 
-        if(mesInt==1||mesInt==3 || mesInt==5 || mesInt==7 || mesInt==8 || mesInt==10 || mesInt==12){
-            if(diaInt<1 || diaInt>31)return false;
+        int dia, mes, ano;
+
+        try {
+            dia = Integer.parseInt(valores[0]);
+            mes = Integer.parseInt(valores[1]);
+            ano = Integer.parseInt(valores[2]);
+        } catch (NumberFormatException e) {
+            System.out.println("Erro: Conversão falhou.");
+            return false;
         }
+
+        if (mes < 1 || mes > 12) {
+            System.out.println("Erro: Mês inválido.");
+            return false;
+        }
+
+        if (ano < 1500) {
+            System.out.println("Erro: Ano inválido.");
+            return false;
+        }
+
+        int[] diasPorMes = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        if (mes == 2 && anoBissexto(ano)) {
+            diasPorMes[1] = 29;
+        }
+
+        if (dia < 1 || dia > diasPorMes[mes - 1]) {
+            System.out.println("Erro: Dia inválido.");
+            return false;
+        }
+
         return true;
     }
 
+    private boolean anoBissexto(int ano) {
+        return (ano % 4 == 0 && ano % 100 != 0) || (ano % 400 == 0);
+    }
 
-    public boolean VerificaCategoria(String categoria){
+
+
+    public boolean verificaCategoria(String categoria){
         if(!categoria.equalsIgnoreCase("Beleza") && !categoria.equalsIgnoreCase("BemEstar") && !categoria.equalsIgnoreCase("Bebes") && !categoria.equalsIgnoreCase("Animais") && !categoria.equalsIgnoreCase("Outros")){
             System.out.println("Erro: Categoria incorreta.");
             return false;
@@ -139,7 +159,7 @@ public class Verificacoes {
         return true;
     }
 
-    public boolean VerificaString(String palavra, int tamanho) {
+    public boolean verificaString(String palavra, int tamanho) {
         if (palavra==null || palavra.matches("^[0-9]+$") || palavra.length()<=tamanho){
             System.out.println("Erro.");
             return false;
