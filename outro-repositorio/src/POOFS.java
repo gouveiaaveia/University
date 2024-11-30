@@ -22,8 +22,18 @@ public class POOFS {
             System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
             System.out.println("=======================\n");
-            System.out.println("MENU:\n1 - Criar cliente\n2 - Editar cliente\n3 - Lista de clientes\n4 - Criar fatura\n5 - Editar fatura\n" +
-                    "6 - Lista de faturas\n7 - Visualizar fatura\n8 - Importar faturas\n9 - Exportar faturas\n10 - Sair");
+            System.out.println("""
+                    MENU:
+                    1 - Criar cliente
+                    2 - Editar cliente
+                    3 - Lista de clientes
+                    4 - Criar fatura
+                    5 - Editar fatura
+                    6 - Lista de faturas
+                    7 - Visualizar fatura
+                    8 - Importar faturas
+                    9 - Exportar faturas
+                    10 - Sair""");
             System.out.print("=======================\nOpção: ");
 
             String op = sc.nextLine();
@@ -88,7 +98,7 @@ public class POOFS {
                                     }
                                 }
                             }while(existe);
-                            fatura.criarFatura(dados,sc, v);
+                            fatura.criarFatura(dados,sc, v, n);
                             dados.adicionarFatura(fatura);
                             clienteEncontrado = true;  // Cliente foi encontrado
                             break;
