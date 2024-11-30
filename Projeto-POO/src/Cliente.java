@@ -1,14 +1,19 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class Cliente{
+
+public class Cliente implements Serializable{
 
     private String nome;
     private String nif;
     private String localizacao;
 
-    Scanner sc = new Scanner(System.in);
-    Verificacoes v = new Verificacoes();
+    public Cliente(String nome, String nif, String localizacao){
+        this.nome = nome;
+        this.nif = nif;
+        this.localizacao =localizacao;
+    }
 
     public Cliente(){
         this.nome = "";
@@ -16,18 +21,18 @@ public class Cliente{
         this.localizacao = "";
     }
 
-    public void criarCliente(ArrayList<Cliente> listaCliente){
+    public void criarCliente(ArrayList<Cliente> listaCliente, Scanner sc, Verificacoes v){
         String nome;
         boolean encontrado = false;
         do {
-            System.out.print("\nNome: ");
+            System.out.print("Nome: ");
             nome = sc.nextLine();
-        } while (!v.VerificaString(nome,2));
+        } while (!v.verificaString(nome,2));
         setNome(nome);
 
         String nif;
         do {
-            System.out.print("\nNIF: ");
+            System.out.print("NIF: ");
             nif = sc.nextLine();
             for (Cliente cliente : listaCliente) {
                 if (nif.equals(cliente.getNif())) {
@@ -35,19 +40,19 @@ public class Cliente{
                     encontrado = true;
                 }
             }
-        } while (!v.VerificaNif(nif, listaCliente) && !encontrado);
+        } while (!v.verificaNif(nif, listaCliente) && !encontrado);
         setNif(nif);
 
         String localizacao;
         do {
-            System.out.print("\nLocalização (Madeira,Açores,Portugal Continental): ");
+            System.out.print("Localização (Madeira,Açores,Portugal Continental): ");
             localizacao = sc.nextLine();
-        } while (!v.VerificaLocalizacao(localizacao));
+        } while (!v.verificaLocalizacao(localizacao));
         setLocalizacao(localizacao.toLowerCase()); //vai em minusculos por causa do que temmos na tebela
     }
 
 
-    public void EditaCliente(ArrayList<Cliente> listaCliente){
+    public void EditaCliente(ArrayList<Cliente> listaCliente, Scanner sc, Verificacoes v){
         System.out.print("\nEditar nome?");
         String resposta=sc.nextLine();
         if(resposta.equalsIgnoreCase("sim")){
@@ -55,7 +60,7 @@ public class Cliente{
             do{
                 System.out.print("\nNome novo:");
                 nome=sc.nextLine();
-            } while(!v.VerificaString(nome,2));
+            } while(!v.verificaString(nome,2));
             setNome(nome);
         }
 
@@ -73,7 +78,7 @@ public class Cliente{
                         encontrado = true;
                     }
                 }
-            } while(!v.VerificaNif(nif,listaCliente) && !encontrado);
+            } while(!v.verificaNif(nif,listaCliente) && !encontrado);
             setNif(nif);
         }
 
@@ -84,14 +89,14 @@ public class Cliente{
             do{
                 System.out.print("\nLocalização nova:");
                 localizacao = sc.nextLine();
-            } while(!v.VerificaLocalizacao(localizacao));
+            } while(!v.verificaLocalizacao(localizacao));
             setLocalizacao(localizacao.toLowerCase());
         }
     }
 
 
     public String toString(){
-        return "Cliente:  Nome: " + getNome() + "  NIF: " + getNif() + "  Localização: " + getLocalizacao();
+        return "Nome: " + getNome() + "  NIF: " + getNif() + "  Localização: " + getLocalizacao();
     }
 
     public String getNome() {

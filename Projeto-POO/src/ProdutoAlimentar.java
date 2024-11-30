@@ -1,7 +1,8 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class ProdutoAlimentar extends Produtos{
+public class ProdutoAlimentar extends Produtos implements Serializable{
 
     enum TipoTaxa {
         Reduzida,
@@ -13,31 +14,49 @@ public class ProdutoAlimentar extends Produtos{
     protected String categotia;
     protected ArrayList<String> certificacoes;
 
-    Scanner sc = new Scanner(System.in);
-    Verificacoes v = new Verificacoes();
+
+    public ProdutoAlimentar(String nome, String codigo,String descricao, int quantidade, double precoUnitario, String categoria,ArrayList<String> certificacoes){
+        super(nome,codigo,descricao,quantidade,precoUnitario);
+        this.categotia=categoria;
+        this.certificacoes=certificacoes;
+        determinarTipoTaxaIVA();
+    }
 
     public ProdutoAlimentar() {
         super();
         this.categotia = "";
+        this.tipoTaxa = TipoTaxa.Normal;
         certificacoes = new ArrayList<>();
     }
 
-    public void criarEditarProduto(){
-        super.criarEditarProduto();
-        setCategotia(categoria());
-        setCertificacoes(certificacoes());
+    public void criarEditarProduto(Dados dados, Scanner sc, Verificacoes v, String codigo){
+        Produtos produtoEncontrar=dados.encontrarProdutoDados(codigo);
+
+        if(produtoEncontrar==null){
+            super.criarProdutosComum(false, codigo, sc, v); //nao existe por isso mandamos um false
+            setCategotia(categoria(sc));
+            setCertificacoes(certificacoes(sc, v));
+        }
+        else{
+            super.criarProdutosComum(true, codigo, sc, v);
+        }
         determinarTipoTaxaIVA();
     }
 
-    protected String categoria(){
+    protected String categoria(Scanner sc){
         System.out.print("Categoria: ");
         return sc.nextLine();
     }
 
-    protected ArrayList<String> certificacoes(){
+    protected ArrayList<String> certificacoes(Scanner sc, Verificacoes v){
+        System.out.print("Certificacoes (max 4): ");
         ArrayList<String> certificacoes = new ArrayList<>(4);
 
-        int numero = v.numeroCertificacoes();
+        int numero;
+        do{
+            String op = sc.nextLine();
+            numero = v.stringInteger(op);
+        }while(numero > 4 || numero < 0);
 
         for(int i = 0; i< numero; i++){
             System.out.print("Digite a certificação "+(i+1)+": ");

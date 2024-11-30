@@ -1,28 +1,32 @@
 import java.util.Scanner;
+import java.io.Serializable;
 
-public class ProdutoFarmacia extends Produtos{
+public class ProdutoFarmacia extends Produtos implements Serializable{
 
     private String categoria;
-    Scanner scanner = new Scanner(System.in);
-    Verificacoes verificacoes= new Verificacoes();
+
+    public ProdutoFarmacia(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String categoria){
+        super(codigo,nome,descricao,quantidade,precoUnitario);
+        this.categoria=categoria;
+    }
 
     public ProdutoFarmacia(){
         super();
         this.categoria="";
     }
 
-    public void CriarNaopPrescrito(){
-        super.criarEditarProduto();
-        setCategoria(Categoria());
+    public void criarNaoPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+        super.criarProdutosComum(verifica,codigo, sc, v);
+        setCategoria(Categoria(sc, v));
     }
 
-    private String Categoria(){
+    private String Categoria(Scanner sc, Verificacoes v){
         String categoria;
 
         do{
             System.out.print("\nCategoria (Beleza,BemEstar,Bebes,Animais,Outros):");
-            categoria=scanner.nextLine();
-        }while(!verificacoes.VerificaCategoria(categoria));
+            categoria=sc.nextLine();
+        }while(!v.verificaCategoria(categoria));
         return categoria;
     }
 
@@ -50,18 +54,21 @@ public class ProdutoFarmacia extends Produtos{
 
         return tabelaValores.getTaxaNormal();
     }
+
     @Override
     public double valorComIVA(String localizacao){ //iva por cada um produtor
-        return this.precoUnitario*obterIVA(localizacao);
+        return getPrecoUnitario() + (getPrecoUnitario() * obterIVA(localizacao));
 
     }
+
     @Override
     public double valorTotalSemIVA(){
-        return (double)this.quantidade*this.precoUnitario;
+        return (double) getQuantidade() * getPrecoUnitario();
     }
+
     @Override
     public double valorTotalComIVA(String localizacao){
-        return this.quantidade*valorComIVA(localizacao);
+        return getQuantidade() * valorComIVA(localizacao);
     }
 
 
