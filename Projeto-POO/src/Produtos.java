@@ -9,9 +9,6 @@ public abstract class Produtos implements Serializable{
     protected int quantidade;
     protected double precoUnitario;
 
-    private transient Scanner sc = new Scanner(System.in);
-    Verificacoes v = new Verificacoes();
-
     public Produtos(String codigo, String nome, String descricao, int quantidade,double precoUnitario){
         this.codigo = codigo;
         this.nome = nome;
@@ -28,7 +25,7 @@ public abstract class Produtos implements Serializable{
         this.precoUnitario = 0;
     }
 
-    public void criarProdutosComum(boolean verifica, String codigo){
+    public void criarProdutosComum(boolean verifica, String codigo, Scanner sc, Verificacoes v){
 
         if(!verifica){
             setCodigo(codigo); //peço sempre o codigo anteriormente para verificar se ja existe o produto na lista dos dados
@@ -52,10 +49,9 @@ public abstract class Produtos implements Serializable{
             valor = v.stringInteger(q);
         }while(valor == 0);
         setQuantidade(valor);
-
     }
 
-    public void criarEditarProduto(){
+    public void criarEditarProduto(Scanner sc, Verificacoes v){
         System.out.print("Código do produto: ");
         setCodigo(sc.nextLine());
         System.out.print("Nome do produto: ");

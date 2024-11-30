@@ -9,9 +9,6 @@ public class Cliente implements Serializable{
     private String nif;
     private String localizacao;
 
-    private transient Scanner sc = new Scanner(System.in);
-    Verificacoes v = new Verificacoes();
-
     public Cliente(String nome, String nif, String localizacao){
         this.nome = nome;
         this.nif = nif;
@@ -24,18 +21,18 @@ public class Cliente implements Serializable{
         this.localizacao = "";
     }
 
-    public void criarCliente(ArrayList<Cliente> listaCliente){
+    public void criarCliente(ArrayList<Cliente> listaCliente, Scanner sc, Verificacoes v){
         String nome;
         boolean encontrado = false;
         do {
-            System.out.print("\nNome: ");
+            System.out.print("Nome: ");
             nome = sc.nextLine();
         } while (!v.verificaString(nome,2));
         setNome(nome);
 
         String nif;
         do {
-            System.out.print("\nNIF: ");
+            System.out.print("NIF: ");
             nif = sc.nextLine();
             for (Cliente cliente : listaCliente) {
                 if (nif.equals(cliente.getNif())) {
@@ -48,14 +45,14 @@ public class Cliente implements Serializable{
 
         String localizacao;
         do {
-            System.out.print("\nLocalização (Madeira,Açores,Portugal Continental): ");
+            System.out.print("Localização (Madeira,Açores,Portugal Continental): ");
             localizacao = sc.nextLine();
         } while (!v.verificaLocalizacao(localizacao));
         setLocalizacao(localizacao.toLowerCase()); //vai em minusculos por causa do que temmos na tebela
     }
 
 
-    public void EditaCliente(ArrayList<Cliente> listaCliente){
+    public void EditaCliente(ArrayList<Cliente> listaCliente, Scanner sc, Verificacoes v){
         System.out.print("\nEditar nome?");
         String resposta=sc.nextLine();
         if(resposta.equalsIgnoreCase("sim")){
@@ -99,7 +96,7 @@ public class Cliente implements Serializable{
 
 
     public String toString(){
-        return "Cliente:  Nome: " + getNome() + "  NIF: " + getNif() + "  Localização: " + getLocalizacao();
+        return "Nome: " + getNome() + "  NIF: " + getNif() + "  Localização: " + getLocalizacao();
     }
 
     public String getNome() {

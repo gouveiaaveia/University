@@ -4,8 +4,6 @@ import java.io.Serializable;
 public class ProdutoFarmaciaPrescrito extends Produtos implements Serializable{
 
     private String nomeMedico;
-    private transient Scanner sc = new Scanner(System.in);
-    Verificacoes verificacoes= new Verificacoes();
 
     public ProdutoFarmaciaPrescrito(String codigo, String nome, String descricao, int quantidade,double precoUnitario,String medico) {
         super(codigo,nome,descricao,quantidade,precoUnitario);
@@ -17,13 +15,13 @@ public class ProdutoFarmaciaPrescrito extends Produtos implements Serializable{
         this.nomeMedico = "";
     }
 
-    public void CriarPrescrito(boolean verifica, String codigo){
-        super.criarProdutosComum(verifica,codigo);
-        setNomeMedico(Medico());
+    public void CriarPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+        super.criarProdutosComum(verifica,codigo, sc, v);
+        setNomeMedico(Medico(sc, v));
 
     }
 
-    private String Medico(){
+    private String Medico(Scanner sc, Verificacoes verificacoes){
         String medico;
         do{
             System.out.print("\nNome médico:");

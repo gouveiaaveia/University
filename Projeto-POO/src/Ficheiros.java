@@ -3,12 +3,20 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Ficheiros {
-    private String caminhoRelativoFicheiro;
-    private String caminhoFicheiroObjetos;
+    private final String caminhoRelativoFicheiro;
+    private final String caminhoFicheiroObjetos;
+    private final String caminhoFicheiroFaturas;
 
     public Ficheiros(String caminhoRelativoFicheiro, String caminhoFicheiroObjetos) {
         this.caminhoRelativoFicheiro = caminhoRelativoFicheiro;
         this.caminhoFicheiroObjetos = caminhoFicheiroObjetos;
+        this.caminhoFicheiroFaturas = "";
+    }
+
+    public Ficheiros(String caminhoFicheiroFaturas) {
+        this.caminhoRelativoFicheiro = "";
+        this.caminhoFicheiroObjetos = "";
+        this.caminhoFicheiroFaturas = caminhoFicheiroFaturas;
     }
 
     public boolean verificaFicheiro() {
@@ -46,6 +54,40 @@ public class Ficheiros {
         }
     }
 
+
+    public void lerFicheiroFaturas(Dados dados){
+        File f = new File(this.caminhoFicheiroFaturas);
+
+        if (!f.exists() || !f.isFile()) {
+            System.out.println("Ficheiro não existe!!");
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new FileReader(f))) {
+
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                lerFaturas(dados, br);
+            }
+
+        } catch (IOException ex) {
+            System.out.print("\nErro ao ler o ficheiro de texto: " + ex.getMessage());
+        }
+    }
+
+    public void escreverFicheiroFaturas(Dados dados){
+        File f = new File(this.caminhoFicheiroFaturas);
+
+        try{
+            FileWriter fw = new FileWriter(f, false);
+            BufferedWriter bw = new BufferedWriter(fw);
+            escreverFaturas(dados, bw);
+            bw.close();
+        }catch (IOException ex){
+            System.out.println("Erro a escrever no ficheiro!");
+        }
+    }
 
     private void lerClientes(Dados dados, BufferedReader br) throws IOException {
         String line;
@@ -119,6 +161,23 @@ public class Ficheiros {
         }
     }
 
+    private void escreverFaturas(Dados dados, BufferedWriter bw) throws IOException {
+        for(Fatura f : dados.getFaturas()){
+            bw.write(f.getNumeroFatura() + "/" + f.getCliente().getNif() + "/" +
+                    f.getData() + ";");
+            int count = 0;
+            for(Produtos p : f.getListaProdutos()){
+                if(count > 0){
+                    bw.write("/" + p.getCodigo());
+                }else{
+                    count += 1;
+                    bw.write(p.getCodigo());
+                }
+            }
+            bw.newLine();
+        }
+    }
+
     public void lerFicheiroObjetos(Dados dados){
         try{
             FileInputStream fis = new FileInputStream(this.caminhoFicheiroObjetos);
@@ -136,24 +195,20 @@ public class Ficheiros {
             System.out.print("\nErro ao ler o ficheiro: " + ex.getMessage());
         }catch (ClassNotFoundException ex){
             System.out.print("\nClasse não encontrada: ");
-            ex.printStackTrace();
         }
     }
 
     public void escreverFicheiroObjetos(Dados dados) {
-    try (FileOutputStream fos = new FileOutputStream(this.caminhoFicheiroObjetos);
-        ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-        oos.writeObject(dados.getClientes());
-        oos.writeObject(dados.getProdutos());
-        oos.writeObject(dados.getFaturas());
-        oos.close();
-    } catch (FileNotFoundException ex) {
-        System.out.print("\nFicheiro não encontrado: " + ex.getMessage());
-    } catch (IOException ex) {
-        System.out.print("\nErro ao escrever no ficheiro: ");
-         ex.printStackTrace();
+        try (FileOutputStream fos = new FileOutputStream(this.caminhoFicheiroObjetos);
+             ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+            oos.writeObject(dados.getClientes());
+            oos.writeObject(dados.getProdutos());
+            oos.writeObject(dados.getFaturas());
+            oos.close();
+        } catch (FileNotFoundException ex) {
+            System.out.print("\nFicheiro não encontrado: " + ex.getMessage());
+        } catch (IOException ex) {
+            System.out.print("\nErro ao escrever no ficheiro");
+        }
     }
-}
-
-
 }

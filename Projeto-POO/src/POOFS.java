@@ -7,7 +7,7 @@ public class POOFS {
         boolean continuar = true;
         Dados dados = new Dados();
 
-        String ficheiroTexto = "../Ficheiros/ficheiro.text";
+        String ficheiroTexto = "ficheiro.text";
         String ficheiroObj = "ficheiroObj.obj";
 
         Ficheiros f = new Ficheiros(ficheiroTexto, ficheiroObj);
@@ -22,7 +22,8 @@ public class POOFS {
             System.out.println("\n\n=======================");
             System.out.println("POO Financial Services");
             System.out.println("=======================\n");
-            System.out.println("MENU:\n1 - Criar cliente\n2 - Editar cliente\n3 - Lista de clientes\n4 - Criar fatura\n5 - Editar fatura\n6 - Lista de faturas\n7 - Visualizar fatura\n8 - Sair");
+            System.out.println("MENU:\n1 - Criar cliente\n2 - Editar cliente\n3 - Lista de clientes\n4 - Criar fatura\n5 - Editar fatura\n" +
+                    "6 - Lista de faturas\n7 - Visualizar fatura\n8 - Importar faturas\n9 - Exportar faturas\n10 - Sair");
             System.out.print("=======================\nOpção: ");
 
             String op = sc.nextLine();
@@ -32,7 +33,7 @@ public class POOFS {
                 case 1:
                     System.out.println("\nCriar cliente: ");
                     Cliente cliente = new Cliente();
-                    cliente.criarCliente(dados.getClientes());
+                    cliente.criarCliente(dados.getClientes(), sc, v);
                     dados.adicionarCliente(cliente);
                     System.out.println("Cliente adicionado com sucesso!");
                     break;
@@ -49,7 +50,7 @@ public class POOFS {
                         Cliente clienteEditar = dados.encontrarCliente(nif);
 
                         if(clienteEditar==null)System.out.print("Erro: Cliente não encontrado, tente de novo\n");
-                        else clienteEditar.EditaCliente(dados.getClientes());
+                        else clienteEditar.EditaCliente(dados.getClientes(), sc, v);
                     }
                     break;
 
@@ -87,7 +88,7 @@ public class POOFS {
                                     }
                                 }
                             }while(existe);
-                            fatura.criarFatura(dados);
+                            fatura.criarFatura(dados,sc, v);
                             dados.adicionarFatura(fatura);
                             clienteEncontrado = true;  // Cliente foi encontrado
                             break;
@@ -101,21 +102,39 @@ public class POOFS {
 
                 case 5:
                     System.out.println("Editar fatura");
-                    Fatura f1 =dados.encontrarFatura();
-                    if(f!=null) f1.editarFatura(dados);
+                    Fatura f1 = dados.encontrarFatura(sc);
+                    if(f1 != null) {
+                        f1.editarFatura(dados, sc, v);
+                    }
                     break;
-
                 case 6:
                     System.out.println("Lista de faturas:");
                     dados.mostrarListaFaturas();
-
                     break;
 
                 case 7:
-                    dados.mostrarFatura();
+                    dados.mostrarFatura(sc);
                     break;
 
                 case 8:
+                    System.out.print("Nome do ficheiro que deseja importar: ");
+                    String nomeFicheiroImportacao = sc.nextLine();
+                    nomeFicheiroImportacao += ".text";
+                    Ficheiros fFaturasImportacao = new Ficheiros(nomeFicheiroImportacao);
+                    fFaturasImportacao.lerFicheiroFaturas(dados);
+                    System.out.print("Ficheiro importado com sucesso!!");
+                    break;
+
+                case 9:
+                    System.out.print("Nome do ficheiro para exportação: ");
+                    String nomeFicheiroExportacao = sc.nextLine();
+                    nomeFicheiroExportacao += ".text";
+                    Ficheiros fFaturasExportacao = new Ficheiros(nomeFicheiroExportacao);
+                    fFaturasExportacao.escreverFicheiroFaturas(dados);
+                    System.out.print("Ficheiro exportado com sucesso!!");
+                    break;
+
+                case 10:
                     System.out.println("Saindo...");
                     continuar = false; // Encerra o loop
                     f.escreverFicheiroObjetos(dados);
