@@ -32,9 +32,8 @@ public class Fatura  implements Serializable{
         this.valorSemIVA=0.0;
     }
 
-    public void criarFatura(Dados dados, Scanner sc, Verificacoes v){
-        System.out.print("Número da fatura: ");
-        setNumeroFatura(sc.nextLine());
+    public void criarFatura(Dados dados, Scanner sc, Verificacoes v, String numeroFatura){
+        setNumeroFatura(numeroFatura);
 
         String data;
         do{
@@ -117,10 +116,10 @@ public class Fatura  implements Serializable{
         for(Produtos p: getListaProdutos()){
             if(p.getCodigo().equals(codigo)){
                 int valor;
-                String q;
+                String q = "\0";
                 do{
                     System.out.print("\nQuantidade do produto: ");
-                    q = sc.nextLine();
+                    q = sc.nextLine().trim();
                     valor = v.stringInteger(q);
                 }while(valor == 0);
                 p.setQuantidade(valor);
