@@ -1,7 +1,11 @@
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
 public class POOFS {
     public static void main(String[] args) {
+        Gui gui = new Gui();
+        gui.criarMenu();
         Scanner sc = new Scanner(System.in);
         Verificacoes v = new Verificacoes();
         boolean continuar = true;
