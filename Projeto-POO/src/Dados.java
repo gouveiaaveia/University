@@ -87,6 +87,37 @@ public class Dados implements Serializable{
         }
     }
 
+    public void estatisticas(){
+        int numeroFaturas= getFaturas().size();
+        int numeroProdutos= getProdutos().size();
+        double totalSemIVA=calculaTotalSemIVA();
+        double totalComIVA=calculaTotalComIVA();
+        double totalIVA=calculaIVA();
+        System.out.printf("Faturas: %d\nProdutos: %d\nValor total sem IVA: %f\nValor total com IVA: %f\nValor total do IVA: %f", numeroFaturas,numeroProdutos,totalSemIVA,totalComIVA,totalIVA);
+
+    }
+
+    private double calculaTotalSemIVA(){
+        double total=0.0;
+        for(Fatura f: getFaturas()){
+            total+=f.getValorSemIVA();
+        }
+        return total;
+    }
+    private double calculaTotalComIVA(){
+        double total=0.0;
+        for(Fatura f: getFaturas()){
+            total+=f.getValorComIVA();
+        }
+        return total;
+    }
+    private double calculaIVA(){
+        double total=0.0;
+        for(Fatura f: getFaturas()){
+            total+=f.getIVA();
+        }
+        return total;
+    }
 
     public void adicionarPordutosDados(Produtos produto){
         System.out.println("Produto adicionado");

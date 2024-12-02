@@ -37,7 +37,8 @@ public class POOFS {
                     7 - Visualizar fatura
                     8 - Importar faturas
                     9 - Exportar faturas
-                    10 - Sair""");
+                    10 - Estatísticas
+                    11 - Sair""");
             System.out.print("=======================\nOpção: ");
 
             String op = sc.nextLine();
@@ -149,6 +150,10 @@ public class POOFS {
                     break;
 
                 case 10:
+                    System.out.print("Estatisticas:\n");
+                    dados.estatisticas();
+                    break;
+                case 11:
                     System.out.println("Saindo...");
                     continuar = false; // Encerra o loop
                     f.escreverFicheiroObjetos(dados);
