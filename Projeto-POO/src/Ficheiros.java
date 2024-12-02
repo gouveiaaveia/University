@@ -65,9 +65,7 @@ public class Ficheiros {
 
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            String line;
-
-            while ((line = br.readLine()) != null) {
+            while (br.readLine() != null) {
                 lerFaturas(dados, br);
             }
 
@@ -157,6 +155,7 @@ public class Ficheiros {
             }
 
             Fatura f = new Fatura(fatura[0], cliente, fatura[2], listaProdutos);
+            f.calcularValoresIVA();
             dados.adicionarFatura(f);
         }
     }

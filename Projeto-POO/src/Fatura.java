@@ -12,6 +12,7 @@ public class Fatura  implements Serializable{
 
     private double valorComIVA;
     private double valorSemIVA;
+    private double iva;
 
     public Fatura(String numeroFatura, Cliente cliente, String data, ArrayList<Produtos> produtos){
         this.numeroFatura=numeroFatura;
@@ -51,6 +52,7 @@ public class Fatura  implements Serializable{
             if(opcao2=='s'){
                 criarProduto(dados, sc, v, false, "");
             }else if(opcao2 == 'n'){
+                calcularValoresIVA();
                 break;
             }
             sc.nextLine();
@@ -84,6 +86,7 @@ public class Fatura  implements Serializable{
             }else {
                 adicionarProdutoFatura(dados, sc, v);
             }
+            calcularValoresIVA();
         }
     }
 
@@ -233,10 +236,12 @@ public class Fatura  implements Serializable{
     public void calcularValoresIVA(){
         setValorComIVA(0.0);
         setValorSemIVA(0.0);
+        setIVA(0.0);
         for(Produtos p : getListaProdutos()){
             if(p==null)System.out.println("nuloo");
             setValorSemIVA(getValorSemIVA() + p.valorTotalSemIVA());
             setValorComIVA(getValorComIVA() + p.valorTotalComIVA(cliente.getLocalizacao()));
+            setIVA(p.obterIVA(getCliente().getLocalizacao()));
         }
     }
 
@@ -325,5 +330,12 @@ public class Fatura  implements Serializable{
 
     public void setValorSemIVA(double valorSemIVA) {
         this.valorSemIVA = valorSemIVA;
+    }
+    public double getIVA() {
+        return iva;
+    }
+
+    public void setIVA(double iva) {
+        this.iva = iva;
     }
 }
