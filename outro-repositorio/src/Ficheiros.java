@@ -94,9 +94,7 @@ public class Ficheiros {
 
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            while (br.readLine() != null) {
-                lerFaturas(dados, br);
-            }
+            lerFaturas(dados, br);
 
         } catch (IOException ex) {
             System.out.print("\nErro ao ler o ficheiro de texto: " + ex.getMessage());
@@ -179,13 +177,15 @@ public class Ficheiros {
 
     private void lerFaturas(Dados dados, BufferedReader br) throws IOException {
         String line;
-        boolean existe = false;
+        boolean existe;
         while ((line = br.readLine()) != null) {
+            existe = false;
             String[] listaDadosFatura = line.split(";");
             String[] fatura = listaDadosFatura[0].split("/");
 
             for(Fatura f: dados.getFaturas()){
                 if (fatura[0].equals(f.getNumeroFatura())){
+                    System.out.print("Existente\n " + fatura[0] + " " + f.getNumeroFatura());
                     existe = true;
                     break;
                 }
@@ -205,7 +205,7 @@ public class Ficheiros {
 
             Fatura f = new Fatura(fatura[0], cliente, fatura[2], listaProdutos);
             f.calcularValoresIVA();
-            dados.adicionarFatura(f);
+            dados.getFaturas().add(f);
         }
     }
 

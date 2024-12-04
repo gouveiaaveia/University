@@ -77,7 +77,6 @@ public class Fatura  implements Serializable{
                 calcularValoresIVA();
                 break;
             }
-            sc.nextLine();
             System.out.print("\nDeseja adicionar mais algum produto? ");
         }while(opcao2 == 's');
     }
@@ -268,7 +267,9 @@ public class Fatura  implements Serializable{
             //produtoEncontrar vai estar à apontar para a mesma class do outro que ja existe
             verifica = true;
             boolean verificaListaProduto = false;
-            produtoEncontrar.criarProdutosComum(verifica,codigo, sc, v);
+            int quantidade = produtoEncontrar.criarProdutosComum(verifica,codigo, sc, v);
+            produtoEncontrar.setQuantidade(quantidade);
+            getListaProdutos().add(produtoEncontrar);
         }
     }
 
