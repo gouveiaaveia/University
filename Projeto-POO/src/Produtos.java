@@ -25,7 +25,7 @@ public abstract class Produtos implements Serializable{
         this.precoUnitario = 0;
     }
 
-    public void criarProdutosComum(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+    protected void criarProdutosComum(boolean verifica, String codigo, Scanner sc, Verificacoes v){
 
         if(!verifica){
             setCodigo(codigo); //peço sempre o codigo anteriormente para verificar se ja existe o produto na lista dos dados
@@ -51,38 +51,14 @@ public abstract class Produtos implements Serializable{
         setQuantidade(valor);
     }
 
-    public void criarEditarProduto(Scanner sc, Verificacoes v){
-        System.out.print("Código do produto: ");
-        setCodigo(sc.nextLine());
-        System.out.print("Nome do produto: ");
-        setNome(sc.nextLine());
-        System.out.print("Descrição do produto: ");
-        setDescricao(sc.nextLine());
+    protected abstract double valorTotalComIVA(String localizacao);
+    protected abstract double valorTotalSemIVA();
+    protected abstract double obterIVA(String localizacao);
+    protected abstract double valorComIVA(String localizacao);
 
-        int valor;
-        do{
-            System.out.print("Quantidade do produto: ");
-            String q = sc.nextLine();
-            valor = v.stringInteger(q);
-        }while(valor == 0);
-        setQuantidade(valor);
-
-        double valor2;
-        do{
-            System.out.print("Preço unitário do produto: ");
-            String q = sc.nextLine();
-            valor2 = v.stringDouble(q);
-        }while(valor2 == 0);
-        setPrecoUnitario(valor2);
-    }
-
-    public abstract double valorTotalComIVA(String localizacao);
-    public abstract double valorTotalSemIVA();
-    public abstract double obterIVA(String localizacao);
-    public abstract double valorComIVA(String localizacao);
 
     public String toString(){
-        return "";
+        return "Código: " + getCodigo() + "  Nome: " + getNome() + "  Preço Unitário: " + getPrecoUnitario() + "  Quantidade: " + getQuantidade();
     };
 
 

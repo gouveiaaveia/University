@@ -4,10 +4,10 @@ import java.io.Serializable;
 
 public class ProdutoAlimentar extends Produtos implements Serializable{
 
-    enum TipoTaxa {
+    private enum TipoTaxa {
         Reduzida,
         Intermedia,
-        Normal;
+        Normal
     }
 
     protected TipoTaxa tipoTaxa;
@@ -121,7 +121,7 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
     }
 
     public String toString(){
-        return "Código: " + getCodigo() + "  Nome: " + getNome() + "  Preço Unitário: " + getPrecoUnitario() + "  Quantidade: " + getQuantidade();
+        return super.toString();
     }
 
 
