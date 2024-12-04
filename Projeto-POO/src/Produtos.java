@@ -25,7 +25,7 @@ public abstract class Produtos implements Serializable{
         this.precoUnitario = 0;
     }
 
-    protected void criarProdutosComum(boolean verifica, String codigo, Scanner sc, Verificacoes v){
+    protected int criarProdutosComum(boolean verifica, String codigo, Scanner sc, Verificacoes v){
 
         if(!verifica){
             setCodigo(codigo); //peço sempre o codigo anteriormente para verificar se ja existe o produto na lista dos dados
@@ -49,6 +49,7 @@ public abstract class Produtos implements Serializable{
             valor = v.stringInteger(q);
         }while(valor == 0);
         setQuantidade(valor);
+        return (valor);
     }
 
     protected abstract double valorTotalComIVA(String localizacao);
