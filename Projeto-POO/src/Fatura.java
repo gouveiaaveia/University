@@ -108,7 +108,7 @@ public class Fatura  implements Serializable{
             }while(opcao2 != 1 && opcao2 != 2 && opcao2 !=3);
 
             if(opcao2 == 1){
-                editarQuantidadeProduto(sc, v, 0);
+                editarQuantidadeProduto(sc, v);
             }else if(opcao2==2){
                 removerProduto(sc);
             }else {
@@ -119,34 +119,24 @@ public class Fatura  implements Serializable{
     }
 
     private void adicionarProdutoFatura(Dados dados, Scanner sc, Verificacoes v){
-        String valor;
         boolean verificaCodigo = true;
-        int opcao;
-        do{
-            System.out.print("Código do produto: ");
-            valor= sc.nextLine();
-            opcao = v.stringInteger(valor);
-        }while(opcao==0);
+        String opcao = v.verificaCodigo(sc);
 
         for(Produtos p: listaProdutos){
-            if(p.getCodigo().equals(valor)){
+            if(p.getCodigo().equals(opcao)){
                 System.out.println("\nO produto já existe na fatura, altere a quantidade.\n");
-                editarQuantidadeProduto(sc, v, opcao);
+                editarQuantidadeProduto(sc, v);
             }else{
                 verificaCodigo=false;
             }
         }
 
-        if(!verificaCodigo) criarProduto(dados, sc, v, true, valor);
+        if(!verificaCodigo) criarProduto(dados, sc, v, true, opcao);
     }
 
-    private void editarQuantidadeProduto(Scanner sc, Verificacoes v, int codigo){//só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
+    private void editarQuantidadeProduto(Scanner sc, Verificacoes v){//só podemos editar a quantidade porque assim nao faria sentido ver se o codigo ja existe
 
-        if(codigo == 0){
-            System.out.print("Código do produto a editar: ");
-            String cod = sc.nextLine();
-            codigo = v.stringInteger(cod);
-        }
+        String codigo = v.verificaCodigo(sc);
 
         boolean encontrado = false;
         for(Produtos p: getListaProdutos()){
@@ -162,6 +152,7 @@ public class Fatura  implements Serializable{
                 encontrado = true;
             }
         }
+
         if(!encontrado){
             System.out.println("Produto não encontrado!");
         }
