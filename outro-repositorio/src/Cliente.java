@@ -106,7 +106,7 @@ public class Cliente implements Serializable{
                         disponivel = false;
                     }
                 }
-            } while(!v.verificaNif(nif,listaCliente) && !disponivel);
+            } while(!v.verificaNif(nif,listaCliente) || !disponivel);
             setNif(nif);
         }
 

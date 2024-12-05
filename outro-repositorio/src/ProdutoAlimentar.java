@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Serializable;
 
+/**
+ * Classe que representa produtos alimentares, estendendo a classe Produtos.
+ * Inclui características específicas como categoria, certificações e tipo de taxa IVA.
+ */
 public class ProdutoAlimentar extends Produtos implements Serializable{
 
     private enum TipoTaxa {
@@ -15,6 +19,17 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
     protected ArrayList<String> certificacoes;
 
 
+    /**
+     * Construtor que inicializa todos os atributos do produto alimentar com os valores fornecidos.
+     *
+     * @param nome           o nome do produto.
+     * @param codigo         o código do produto.
+     * @param descricao      a descrição do produto.
+     * @param quantidade     a quantidade disponível do produto.
+     * @param precoUnitario  o preço unitário do produto.
+     * @param categoria      a categoria do produto alimentar.
+     * @param certificacoes  as certificações do produto alimentar.
+     */
     public ProdutoAlimentar(String nome, String codigo,String descricao, int quantidade, double precoUnitario, String categoria,ArrayList<String> certificacoes){
         super(nome,codigo,descricao,quantidade,precoUnitario);
         this.categotia=categoria;
@@ -22,49 +37,13 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
         determinarTipoTaxaIVA();
     }
 
-    public ProdutoAlimentar() {
-        super();
-        this.categotia = "";
-        this.tipoTaxa = TipoTaxa.Normal;
-        certificacoes = new ArrayList<>();
-    }
-
-    public void criarEditarProduto(Dados dados, Scanner sc, Verificacoes v, String codigo){
-        Produtos produtoEncontrar=dados.encontrarProdutoDados(codigo);
-
-        if(produtoEncontrar==null){
-            super.criarProdutosComum(false, codigo, sc, v); //nao existe por isso mandamos um false
-            setCategotia(categoria(sc));
-            setCertificacoes(certificacoes(sc, v));
-        }
-        else{
-            super.criarProdutosComum(true, codigo, sc, v);
-        }
-        determinarTipoTaxaIVA();
-    }
-
-    protected String categoria(Scanner sc){
-        System.out.print("Categoria: ");
-        return sc.nextLine();
-    }
-
-    protected ArrayList<String> certificacoes(Scanner sc, Verificacoes v){
-        System.out.print("Certificacoes (max 4): ");
-        ArrayList<String> certificacoes = new ArrayList<>(4);
-
-        int numero;
-        do{
-            String op = sc.nextLine();
-            numero = v.stringInteger(op);
-        }while(numero > 4 || numero < 0);
-
-        for(int i = 0; i< numero; i++){
-            System.out.print("Digite a certificação "+(i+1)+": ");
-            certificacoes.add(sc.nextLine());
-        }
-        return certificacoes;
-    }
-
+    /**
+     * Calcula o preço unitário do produto com IVA com base na localização.
+     * Aplica regras específicas para certificações ou categoria "vinho".
+     *
+     * @param localizacao a localização usada para determinar a taxa de IVA.
+     * @return o preço unitário com IVA.
+     */
     @Override
     public double valorComIVA(String localizacao){
         if(getCertificacoes().size() == 4){
@@ -76,16 +55,33 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
         return getPrecoUnitario() + (obterIVA(localizacao) * getPrecoUnitario());
     }
 
+    /**
+     * Calcula o valor total do produto sem IVA.
+     *
+     * @return o valor total sem IVA.
+     */
     @Override
     public double valorTotalSemIVA(){
         return getQuantidade() * getPrecoUnitario();
     }
 
+    /**
+     * Calcula o valor total do produto com IVA com base na localização.
+     *
+     * @param localizacao a localização usada para determinar a taxa de IVA.
+     * @return o valor total com IVA.
+     */
     @Override
     public double valorTotalComIVA(String localizacao){
         return getQuantidade() * valorComIVA(localizacao);
     }
 
+    /**
+     * Obtém a taxa de IVA aplicável com base na localização e tipo de taxa.
+     *
+     * @param localizacao a localização usada para determinar a taxa de IVA.
+     * @return a taxa de IVA aplicável.
+     */
     @Override
     public double obterIVA(String localizacao) {
 
@@ -102,6 +98,9 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
         }
     }
 
+    /**
+     * Determina o tipo de taxa de um produto, baseado nas certificações e categoria
+     */
     public void determinarTipoTaxaIVA(){
         if(!certificacoes.isEmpty()){
             tipoTaxa = TipoTaxa.Reduzida;
@@ -120,31 +119,66 @@ public class ProdutoAlimentar extends Produtos implements Serializable{
         return obterIVA(localizacao) - (double) (1/100);
     }
 
+    /**
+     * Retorna uma representação em forma de string do produto alimentar.
+     * Inclui as informações básicas herdadas da classe Produtos.
+     *
+     * @return uma string representando o produto alimentar.
+     */
     public String toString(){
         return super.toString();
     }
 
-
+    /**
+     * Obtém o tipo de taxa IVA aplicado ao produto alimentar.
+     *
+     * @return o tipo de taxa IVA.
+     */
     public TipoTaxa getTipoTaxa() {
         return tipoTaxa;
     }
 
+    /**
+     * Define o tipo de taxa IVA aplicado ao produto alimentar.
+     *
+     * @param tipoTaxa o novo tipo de taxa IVA.
+     */
     public void setTipoTaxa(TipoTaxa tipoTaxa) {
         this.tipoTaxa = tipoTaxa;
     }
 
+    /**
+     * Obtém a categoria do produto alimentar.
+     *
+     * @return a categoria do produto.
+     */
     public String getCategotia() {
         return categotia;
     }
 
+    /**
+     * Define a categoria do produto alimentar.
+     *
+     * @param categotia a nova categoria do produto.
+     */
     public void setCategotia(String categotia) {
         this.categotia = categotia;
     }
 
+    /**
+     * Obtém a lista de certificações do produto alimentar.
+     *
+     * @return uma lista de certificações.
+     */
     public ArrayList<String> getCertificacoes() {
         return certificacoes;
     }
 
+    /**
+     * Define a lista de certificações do produto alimentar.
+     *
+     * @param certificacoes a nova lista de certificações.
+     */
     public void setCertificacoes(ArrayList<String> certificacoes) {
         this.certificacoes = certificacoes;
     }

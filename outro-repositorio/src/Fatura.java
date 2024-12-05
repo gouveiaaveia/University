@@ -183,22 +183,6 @@ public class Fatura  implements Serializable{
         }
     }
 
-    /**
-     * Adiciona um produto à fatura. Se o produto já existir, sua quantidade será incrementada.
-     *
-     * @param produto o produto a ser adicionado à fatura.
-     */
-    public void adicionarProduto(Produtos produto){
-        for(Produtos p:listaProdutos){
-            if(p.getCodigo().equals(produto.getCodigo())){
-                System.out.println("\nProduto já existe na fatura, incrementar quantidade.");
-                p.setQuantidade(p.getQuantidade()+produto.getQuantidade());
-                return;
-            }
-        }
-        this.listaProdutos.add(produto);
-    }
-
     private void criarProduto(Dados dados, Scanner sc, Verificacoes v, boolean codigoDado, String cod){
         String codigo = cod;
 
@@ -210,60 +194,8 @@ public class Fatura  implements Serializable{
         Produtos produtoEncontrar = dados.encontrarProdutoDados(codigo);
         //verifica se o produto ja esta criado na lista dos dados
 
-        if(produtoEncontrar==null){
-            verifica=false;
-            System.out.print("Tipo de produto a adicionar:\n1- Produto alimentar\n2- Produto Farmaceutico\n");
-            int opcao;
-            do{
-                System.out.print("Opção: ");
-                String valor = sc.nextLine();
-                opcao = v.stringInteger(valor);
-            }while(opcao != 1 && opcao != 2);
-
-
-
-            switch(opcao){
-                case 1:
-                    System.out.print("Produto biológico? ");
-
-                    char opcao1 = v.verificaSimNao(sc);
-
-                    if(opcao1== 's'){
-                        ProdutoAlimentarBiologico p = new ProdutoAlimentarBiologico();
-                        p.criarEditarProduto(dados, sc, v, codigo);
-                        adicionarProduto(p); //adicionar à lista faturas
-                        dados.adicionarPordutosDados(p);
-
-                    }else{
-                        ProdutoAlimentar p = new ProdutoAlimentar();
-                        p.criarEditarProduto(dados, sc, v, codigo);
-                        adicionarProduto(p);
-                        dados.adicionarPordutosDados(p);
-                    }
-
-                    break;
-
-                case 2:
-                    System.out.print("Tem prescrição médica?");
-                    String prescricoo= sc.nextLine();
-                    if(prescricoo.equalsIgnoreCase("sim")){
-                        ProdutoFarmaciaPrescrito farmaciaP= new ProdutoFarmaciaPrescrito();
-                        farmaciaP.CriarPrescrito(verifica,codigo, sc, v);
-                        adicionarProduto(farmaciaP);
-                        dados.adicionarPordutosDados(farmaciaP);
-                    }
-                    else{
-                        ProdutoFarmacia farmacia= new ProdutoFarmacia();
-                        farmacia.criarNaoPrescrito(verifica ,codigo, sc, v);
-                        adicionarProduto(farmacia);
-                        dados.adicionarPordutosDados(farmacia);
-                    }
-
-                    break;
-            }
-        }
-
-        else { //se ja existir eu só vou pedir a quantidade do produto
+        if(produtoEncontrar != null){
+            //se ja existir eu só vou pedir a quantidade do produto
             //produtoEncontrar vai estar à apontar para a mesma class do outro que ja existe
             verifica = true;
             boolean verificaListaProduto = false;
