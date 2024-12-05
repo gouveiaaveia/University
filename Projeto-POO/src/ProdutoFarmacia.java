@@ -25,37 +25,6 @@ public class ProdutoFarmacia extends Produtos implements Serializable{
     }
 
     /**
-     * Construtor padrão que inicializa um produto de farmácia com valores vazios.
-     */
-    public ProdutoFarmacia(){
-        super();
-        this.categoria="";
-    }
-
-    /**
-     * Cria um produto de farmácia não prescrito com as informações fornecidas pelo usuário.
-     *
-     * @param verifica indica se o código do produto já foi verificado.
-     * @param codigo o código do produto.
-     * @param sc o objeto Scanner para leitura da entrada do usuário.
-     * @param v o objeto Verificacoes para validação das entradas.
-     */
-    public void criarNaoPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
-        super.criarProdutosComum(verifica,codigo, sc, v);
-        setCategoria(Categoria(sc, v));
-    }
-
-    private String Categoria(Scanner sc, Verificacoes v){
-        String categoria;
-
-        do{
-            System.out.print("\nCategoria (Beleza,BemEstar,Bebes,Animais,Outros):");
-            categoria=sc.nextLine();
-        }while(!v.verificaCategoria(categoria));
-        return categoria;
-    }
-
-    /**
      * Retorna uma representação textual do produto de farmácia não prescrito.
      *
      * @return uma string contendo as informações do produto de farmácia.

@@ -24,37 +24,6 @@ public class ProdutoFarmaciaPrescrito extends Produtos implements Serializable{
     }
 
     /**
-     * Construtor padrão que inicializa um produto de farmácia prescrito com valores vazios.
-     */
-    public ProdutoFarmaciaPrescrito() {
-        super();
-        this.nomeMedico = "";
-    }
-
-    /**
-     * Cria um produto prescrito com as informações fornecidas pelo usuário.
-     *
-     * @param verifica indica se o código do produto já foi verificado.
-     * @param codigo o código do produto.
-     * @param sc o objeto Scanner para leitura da entrada do usuário.
-     * @param v o objeto Verificacoes para validação das entradas.
-     */
-    public void CriarPrescrito(boolean verifica, String codigo, Scanner sc, Verificacoes v){
-        super.criarProdutosComum(verifica,codigo, sc, v);
-        setNomeMedico(Medico(sc, v));
-
-    }
-
-    private String Medico(Scanner sc, Verificacoes verificacoes){
-        String medico;
-        do{
-            System.out.print("\nNome médico:");
-            medico=sc.nextLine();
-        }while(!verificacoes.verificaString(medico,2));
-        return medico;
-    }
-
-    /**
      * Retorna uma representação textual do produto prescrito.
      *
      * @return uma string contendo as informações do produto prescrito.

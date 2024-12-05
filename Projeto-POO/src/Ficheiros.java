@@ -185,7 +185,6 @@ public class Ficheiros {
 
             for(Fatura f: dados.getFaturas()){
                 if (fatura[0].equals(f.getNumeroFatura())){
-                    System.out.print("Existente\n " + fatura[0] + " " + f.getNumeroFatura());
                     existe = true;
                     break;
                 }
