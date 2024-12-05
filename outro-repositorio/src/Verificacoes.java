@@ -37,14 +37,15 @@ public class Verificacoes implements Serializable{
      * @return o código do produto como uma string válida.
      */
     public String verificaCodigo(Scanner sc){
-        String codigo;
-        int verificaCod;
+        int codigo;
+        String cod;
         do{
             System.out.print("Código do produto: ");
-            codigo= sc.nextLine();
-            verificaCod = stringInteger(codigo);
-        }while(verificaCod == 0);
-        return codigo;
+            cod= sc.nextLine();
+            codigo = stringInteger(cod);
+        }while(codigo == 0);
+
+        return cod;
     }
 
     /**
