@@ -2,22 +2,39 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.Serializable;
 
+/**
+ * Classe que gerencia os dados de clientes, faturas e produtos.
+ */
 public class Dados implements Serializable{
     private ArrayList<Cliente> clientes;
     private ArrayList<Fatura> faturas;
     private ArrayList<Produtos> produtos;
 
+    /**
+     * Construtor padrão que inicializa as listas de clientes, faturas e produtos.
+     */
     public Dados(){
         this.clientes = new ArrayList<>();
         this.faturas = new ArrayList<>();
         this.produtos= new ArrayList<>();
     }
 
+    /**
+     * Adiciona um cliente à lista de clientes.
+     *
+     * @param cliente o cliente a ser adicionado.
+     */
     public void adicionarCliente(Cliente cliente){
         this.clientes.add(cliente);
     }
 
 
+    /**
+     * Encontra e retorna um cliente com base no NIF fornecido.
+     *
+     * @param nif o NIF do cliente.
+     * @return o cliente correspondente ou null se não encontrado.
+     */
     public Cliente encontrarCliente(String nif){
         for(Cliente cliente: clientes){
             if(nif.equals(cliente.getNif())) return cliente;
@@ -25,17 +42,30 @@ public class Dados implements Serializable{
         return null;
     }
 
+    /**
+     * Exibe a lista de todos os clientes cadastrados.
+     */
     public void mostrarListaClientes(){
         for(Cliente c : clientes){
             System.out.println(c.toString());
         }
     }
 
+    /**
+     * Adiciona uma fatura à lista de faturas.
+     *
+     * @param fatura a fatura a ser adicionada.
+     */
     public void adicionarFatura(Fatura fatura){
         this.faturas.add(fatura);
     }
 
-
+    /**
+     * Encontra e retorna uma fatura com base no número da fatura fornecido.
+     *
+     * @param sc Scanner para leitura da entrada do usuário.
+     * @return a fatura correspondente ou null se não encontrada.
+     */
     public Fatura encontrarFatura(Scanner sc){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
@@ -52,6 +82,11 @@ public class Dados implements Serializable{
         return null;
     }
 
+    /**
+     * Exibe os detalhes de uma fatura com base no número fornecido.
+     *
+     * @param sc Scanner para leitura da entrada do usuário.
+     */
     public void mostrarFatura(Scanner sc){
         System.out.print("Número da fatura: ");
         String numeroFatura = sc.nextLine();
@@ -68,6 +103,9 @@ public class Dados implements Serializable{
         }
     }
 
+    /**
+     * Exibe a lista de todos os produtos cadastrados.
+     */
     public void mostrarProdutos(){
         if(produtos.isEmpty())System.out.println("vazio");
         for(Produtos p:produtos){
@@ -75,6 +113,9 @@ public class Dados implements Serializable{
         }
     }
 
+    /**
+     * Exibe a lista de todas as faturas cadastradas com detalhes.
+     */
     public void mostrarListaFaturas(){
         if(getFaturas().isEmpty()){
             System.out.println("Sem nenhuma fatura registada no sistema!");
@@ -87,6 +128,9 @@ public class Dados implements Serializable{
         }
     }
 
+    /**
+     * Exibe estatísticas relacionadas às faturas e produtos cadastrados.
+     */
     public void estatisticas(){
         int numeroFaturas= getFaturas().size();
         int numeroProdutos= getProdutos().size();
@@ -119,11 +163,22 @@ public class Dados implements Serializable{
         return total;
     }
 
+    /**
+     * Adiciona um produto à lista de produtos.
+     *
+     * @param produto o produto a ser adicionado.
+     */
     public void adicionarPordutosDados(Produtos produto){
         System.out.println("Produto adicionado");
         this.produtos.add(produto);
     }
 
+    /**
+     * Encontra e retorna um produto com base no código fornecido.
+     *
+     * @param codigo o código do produto.
+     * @return o produto correspondente ou null se não encontrado.
+     */
     public Produtos encontrarProdutoDados(String codigo){
         for(Produtos p: this.produtos){
             if(codigo.equalsIgnoreCase(p.getCodigo())){
@@ -135,26 +190,56 @@ public class Dados implements Serializable{
         return null;
     }
 
+    /**
+     * Retorna a lista de clientes cadastrados.
+     *
+     * @return a lista de clientes.
+     */
     public ArrayList<Cliente> getClientes() {
         return clientes;
     }
 
+    /**
+     * Define a lista de clientes cadastrados.
+     *
+     * @param clientes a nova lista de clientes.
+     */
     public void setClientes(ArrayList<Cliente> clientes) {
         this.clientes = clientes;
     }
 
+    /**
+     * Retorna a lista de faturas cadastradas.
+     *
+     * @return a lista de faturas.
+     */
     public ArrayList<Fatura> getFaturas() {
         return faturas;
     }
 
+    /**
+     * Define a lista de faturas cadastradas.
+     *
+     * @param faturas a nova lista de faturas.
+     */
     public void setFaturas(ArrayList<Fatura> faturas) {
         this.faturas = faturas;
     }
 
+    /**
+     * Retorna a lista de produtos cadastrados.
+     *
+     * @return a lista de produtos.
+     */
     public ArrayList<Produtos> getProdutos() {
         return produtos;
     }
 
+    /**
+     * Define a lista de produtos cadastrados.
+     *
+     * @param produtos a nova lista de produtos.
+     */
     public void setProdutos(ArrayList<Produtos> produtos) {
         this.produtos = produtos;
     }
