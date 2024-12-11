@@ -2,15 +2,26 @@ import java.util.Scanner;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Classe principal do programa POO Financial Services.
+ * Responsável por executar o menu principal e as funcionalidades associadas.
+ */
 public class POOFS {
+    /**
+     * Método principal do programa.
+     * Inicializa os componentes necessários, verifica os ficheiros de dados e executa o menu principal.
+     *
+     * @param args Argumentos da linha de comando (não utilizados).
+     */
     public static void main(String[] args) {
-        Gui gui = new Gui();
-        gui.criarMenu();
+
         Scanner sc = new Scanner(System.in);
         Verificacoes v = new Verificacoes();
-        boolean continuar = true;
         Dados dados = new Dados();
 
+        boolean continuar = true;
+
+        //nome dos ficheiros
         String ficheiroTexto = "ficheiro.text";
         String ficheiroObj = "ficheiroObj.obj";
 

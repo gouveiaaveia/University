@@ -2,8 +2,17 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.Serializable;
 
+/**
+ * Classe responsável por validar diferentes tipos de entradas fornecidas pelo usuário.
+ */
 public class Verificacoes implements Serializable{
 
+    /**
+     * Valida a entrada do usuário para as opções "s" (sim) ou "n" (não).
+     *
+     * @param sc Scanner para leitura da entrada do usuário.
+     * @return o caractere 's' para sim ou 'n' para não.
+     */
     public char verificaSimNao(Scanner sc) {
         char c = '\0';
 
@@ -21,17 +30,30 @@ public class Verificacoes implements Serializable{
         return c;
     }
 
+    /**
+     * Valida e retorna um código de produto inserido pelo usuário.
+     *
+     * @param sc Scanner para leitura da entrada do usuário.
+     * @return o código do produto como uma string válida.
+     */
     public String verificaCodigo(Scanner sc){
-        String codigo;
-        int verificaCod;
+        int codigo;
+        String cod;
         do{
             System.out.print("Código do produto: ");
-            codigo= sc.nextLine();
-            verificaCod = stringInteger(codigo);
-        }while(verificaCod == 0);
-        return codigo;
+            cod= sc.nextLine();
+            codigo = stringInteger(cod);
+        }while(codigo == 0);
+
+        return cod;
     }
 
+    /**
+     * Converte uma string em um número inteiro. Retorna 0 se a string não for válida.
+     *
+     * @param op a string a ser convertida.
+     * @return o número inteiro correspondente ou 0 se inválido.
+     */
     public int stringInteger(String op){
         int valor = 0;
         try{
@@ -43,6 +65,12 @@ public class Verificacoes implements Serializable{
         }
     }
 
+    /**
+     * Converte uma string em um número de ponto flutuante. Retorna 0.0 se a string não for válida.
+     *
+     * @param op a string a ser convertida.
+     * @return o número double correspondente ou 0.0 se inválido.
+     */
     public double stringDouble(String op){
         double valor = 0;
         try{
@@ -54,6 +82,12 @@ public class Verificacoes implements Serializable{
         }
     }
 
+    /**
+     * Converte uma string em uma opção de menu (inteiro). Retorna 0 se a string não for válida.
+     *
+     * @param op a string a ser convertida.
+     * @return a opção como inteiro ou 0 se inválida.
+     */
     public int opcaoMenu(String op){
         int opcao = 0;
         try{
@@ -64,6 +98,13 @@ public class Verificacoes implements Serializable{
         }
     }
 
+    /**
+     * Verifica se um NIF é válido e está em um formato correto.
+     *
+     * @param nif o NIF a ser validado.
+     * @param listaCliente a lista de clientes para verificar duplicação.
+     * @return true se o NIF for válido; false caso contrário.
+     */
     public boolean verificaNif(String nif, ArrayList<Cliente> listaCliente) {
 
         if (nif == null || nif.length() != 9) {
@@ -79,6 +120,12 @@ public class Verificacoes implements Serializable{
         return true;
     }
 
+    /**
+     * Verifica se a localização inserida é válida (Madeira, Portugal Continental ou Açores).
+     *
+     * @param localizacao a localização a ser validada.
+     * @return true se a localização for válida; false caso contrário.
+     */
     public boolean verificaLocalizacao(String localizacao) {
         if (localizacao == null){
             System.out.println("Erro:Localização incorreta.");
@@ -91,6 +138,12 @@ public class Verificacoes implements Serializable{
         return true;
     }
 
+    /**
+     * Verifica se uma data está no formato correto e se é válida.
+     *
+     * @param data a data no formato "dd-mm-aaaa".
+     * @return true se a data for válida; false caso contrário.
+     */
     public boolean verificaData(String data) {
         // Verificar se a data é nula ou tem comprimento errado
         if (data == null) {
@@ -98,7 +151,7 @@ public class Verificacoes implements Serializable{
             return false;
         }
 
-        String[] valores = data.split("/");
+        String[] valores = data.split("-");
 
         if (valores.length != 3) {
             System.out.println("Erro: Data não contém três partes.");
@@ -151,6 +204,13 @@ public class Verificacoes implements Serializable{
 
 
 
+    /**
+     * Verifica se uma categoria é válida.
+     * As categorias aceitas são: "Beleza", "BemEstar", "Bebes", "Animais" e "Outros".
+     *
+     * @param categoria a categoria a ser validada.
+     * @return true se a categoria for válida; false caso contrário.
+     */
     public boolean verificaCategoria(String categoria){
         if(!categoria.equalsIgnoreCase("Beleza") && !categoria.equalsIgnoreCase("BemEstar") && !categoria.equalsIgnoreCase("Bebes") && !categoria.equalsIgnoreCase("Animais") && !categoria.equalsIgnoreCase("Outros")){
             System.out.println("Erro: Categoria incorreta.");
@@ -159,6 +219,13 @@ public class Verificacoes implements Serializable{
         return true;
     }
 
+    /**
+     * Verifica se uma string atende aos critérios especificados (não é nula, não contém apenas números e possui tamanho maior que o especificado).
+     *
+     * @param palavra a string a ser validada.
+     * @param tamanho o tamanho mínimo permitido.
+     * @return true se a string for válida; false caso contrário.
+     */
     public boolean verificaString(String palavra, int tamanho) {
         if (palavra==null || palavra.matches("^[0-9]+$") || palavra.length()<=tamanho){
             System.out.println("Erro.");

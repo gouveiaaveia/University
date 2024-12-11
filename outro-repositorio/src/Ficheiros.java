@@ -2,27 +2,52 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+/**
+ * Classe responsável pela manipulação de ficheiros de texto e objetos.
+ */
 public class Ficheiros {
     private final String caminhoRelativoFicheiro;
     private final String caminhoFicheiroObjetos;
     private final String caminhoFicheiroFaturas;
 
+    /**
+     * Construtor para inicializar caminhos de ficheiros de texto e objetos.
+     *
+     * @param caminhoRelativoFicheiro Caminho relativo do ficheiro de texto.
+     * @param caminhoFicheiroObjetos Caminho do ficheiro de objetos.
+     */
     public Ficheiros(String caminhoRelativoFicheiro, String caminhoFicheiroObjetos) {
         this.caminhoRelativoFicheiro = caminhoRelativoFicheiro;
         this.caminhoFicheiroObjetos = caminhoFicheiroObjetos;
         this.caminhoFicheiroFaturas = "";
     }
 
+    /**
+     * Construtor para inicializar o caminho de ficheiros de faturas.
+     *
+     * @param caminhoFicheiroFaturas Caminho do ficheiro de faturas.
+     */
     public Ficheiros(String caminhoFicheiroFaturas) {
         this.caminhoRelativoFicheiro = "";
         this.caminhoFicheiroObjetos = "";
         this.caminhoFicheiroFaturas = caminhoFicheiroFaturas;
     }
 
+    /**
+     * Verifica a existência do ficheiro de objetos.
+     *
+     * @return {@code true} se o ficheiro existe, caso contrário {@code false}.
+     */
     public boolean verificaFicheiro() {
         return new File(this.caminhoFicheiroObjetos).exists();
     }
 
+    /**
+     * Lê dados de um ficheiro de texto e adiciona ao objeto {@link Dados}.
+     *
+     * @param dados Objeto {@link Dados} onde os dados serão armazenados.
+     */
     public void lerFicheiroTexto(Dados dados) {
         File f = new File(this.caminhoRelativoFicheiro);
 
@@ -54,7 +79,11 @@ public class Ficheiros {
         }
     }
 
-
+    /**
+     * Lê faturas de um ficheiro de texto e adiciona ao objeto {@link Dados}.
+     *
+     * @param dados Objeto {@link Dados} onde os dados serão armazenados.
+     */
     public void lerFicheiroFaturas(Dados dados){
         File f = new File(this.caminhoFicheiroFaturas);
 
@@ -65,17 +94,21 @@ public class Ficheiros {
 
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
 
-            while (br.readLine() != null) {
-                lerFaturas(dados, br);
-            }
+            lerFaturas(dados, br);
 
         } catch (IOException ex) {
             System.out.print("\nErro ao ler o ficheiro de texto: " + ex.getMessage());
         }
     }
 
+    /**
+     * Escreve as faturas no ficheiro de texto.
+     *
+     * @param dados Objeto {@link Dados} contendo as faturas a serem escritas.
+     */
     public void escreverFicheiroFaturas(Dados dados){
         File f = new File(this.caminhoFicheiroFaturas);
+        lerFicheiroFaturas(dados); //primeiro lê o ficheiro, guarda os dados e só depois o guarda para não perder informação
 
         try{
             FileWriter fw = new FileWriter(f, false);
@@ -86,6 +119,7 @@ public class Ficheiros {
             System.out.println("Erro a escrever no ficheiro!");
         }
     }
+
 
     private void lerClientes(Dados dados, BufferedReader br) throws IOException {
         String line;
@@ -143,9 +177,23 @@ public class Ficheiros {
 
     private void lerFaturas(Dados dados, BufferedReader br) throws IOException {
         String line;
+        boolean existe;
         while ((line = br.readLine()) != null) {
+            existe = false;
             String[] listaDadosFatura = line.split(";");
             String[] fatura = listaDadosFatura[0].split("/");
+
+            for(Fatura f: dados.getFaturas()){
+                if (fatura[0].equals(f.getNumeroFatura())){
+                    existe = true;
+                    break;
+                }
+            }
+
+            if(existe){
+                continue; //caso já exista a fatura não adiciona aos dados
+            }
+
             Cliente cliente = dados.encontrarCliente(fatura[1]);
             ArrayList<Produtos> listaProdutos = new ArrayList<>();
 
@@ -156,7 +204,7 @@ public class Ficheiros {
 
             Fatura f = new Fatura(fatura[0], cliente, fatura[2], listaProdutos);
             f.calcularValoresIVA();
-            dados.adicionarFatura(f);
+            dados.getFaturas().add(f);
         }
     }
 
@@ -177,6 +225,11 @@ public class Ficheiros {
         }
     }
 
+    /**
+     * Lê os objetos serializados de um ficheiro e adiciona ao objeto {@link Dados}.
+     *
+     * @param dados Objeto {@link Dados} onde os dados serão armazenados.
+     */
     public void lerFicheiroObjetos(Dados dados){
         try{
             FileInputStream fis = new FileInputStream(this.caminhoFicheiroObjetos);
@@ -197,6 +250,11 @@ public class Ficheiros {
         }
     }
 
+    /**
+     * Escreve os objetos serializados de {@link Dados} no ficheiro.
+     *
+     * @param dados Objeto {@link Dados} contendo os dados a serem serializados.
+     */
     public void escreverFicheiroObjetos(Dados dados) {
         try (FileOutputStream fos = new FileOutputStream(this.caminhoFicheiroObjetos);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
