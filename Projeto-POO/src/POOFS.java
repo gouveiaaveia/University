@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  * Classe principal do programa POO Financial Services.
@@ -12,8 +14,6 @@ public class POOFS {
      * @param args Argumentos da linha de comando (não utilizados).
      */
     public static void main(String[] args) {
-        //Gui gui = new Gui();
-        //gui.criarMenu();
 
         Scanner sc = new Scanner(System.in);
         Verificacoes v = new Verificacoes();
