@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"<Unnamed>","l":"Computador"},{"p":"<Unnamed>","l":"Laptop"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"NCSLab"},{"p":"<Unnamed>","l":"RaspberryPi"},{"p":"<Unnamed>","l":"Servidor"}];updateSearchResults();
